@@ -1,0 +1,2 @@
+class FilmRatingController < ApplicationController
+end
