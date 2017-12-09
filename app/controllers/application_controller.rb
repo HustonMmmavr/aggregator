@@ -4,7 +4,7 @@ require 'json'
 class ApplicationController < ActionController::Base
   @@url_film_service = 'localhost:3005/'
   @@url_film_rating_service = 'localhost:8000/'
-  @@url_user_service = 'localhost:3001/'
+  @@url_user_service = 'localhost:3000/'
 
   def send_req(server_addr, server_method, method, params = nil, query_params = nil)
     begin
@@ -39,10 +39,14 @@ class ApplicationController < ActionController::Base
         end
       end
       hash = JSON.load(response.body)
-      hash['status'] = response.code
+      hash['status'] = response.code.to_i
+      p hash
+      hash.keys.each do |key|
+        hash[(key.to_sym rescue key) || key] = hash.delete(key)
+      end
       return hash
     rescue => err
-      p err
+      # p err
       return {:respMsg => "Server not fount", :status => 503}
     end
   end
