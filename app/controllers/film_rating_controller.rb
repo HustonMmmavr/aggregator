@@ -1,7 +1,4 @@
 class FilmRatingController < ApplicationController
-  #  TODO check parameters for valid
-
-
   def set_rating()
     filmId = params[:filmId]
     filmRating = params[:filmRating]
@@ -23,7 +20,6 @@ class FilmRatingController < ApplicationController
     res = send_req(@@url_film_rating_service, 'get_rating', 'get', [filmId])
     if res[:status] != 200
     end
-
     res[:filmAvgRating]
   end
 
@@ -54,6 +50,14 @@ class FilmRatingController < ApplicationController
     end
 
     return render :json => {:film => film, :users_rated_this_film => users}, :status => 200
+  end
+
+  def delete_film()
+    id = params[:id]
+    res = send_req(@@url_film_service, 'delete_film', 'delete', [id])
+    p res
+    res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+    p res
   end
 
   def get_films_by_user()

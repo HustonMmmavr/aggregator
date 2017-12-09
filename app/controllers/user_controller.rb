@@ -13,16 +13,13 @@ class UserController < ApplicationController
   end
 
   def get_user()
+    # todo check if it id or nick and send
     id = params[:id]
     res = send_req(@@url_user_service, 'get_user_by_id', 'get',
       [id])
     p res
     return render :json => {:respMsg => res[:respMsg], :data => res[:user]}, :status => res[:status]
-       # if id == nil
   end
 
-  # def get_user_by_nick
-
-  # end
 
 end

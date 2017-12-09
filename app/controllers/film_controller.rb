@@ -1,7 +1,5 @@
 class FilmController < ApplicationController
   @@films_on_page = 5
-  # todo check page
-
   def films()
     page = Integer(params[:page])
     res = get_films_count
@@ -44,12 +42,9 @@ class FilmController < ApplicationController
   # to films and films_rating
   def delete_film()
     id = params[:id]
+    res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+    p res
     res = send_req(@@url_film_service, 'delete_film', 'delete', id)
     return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-  end
-
-  # to do check paramds
-  def update_film()
-
   end
 end
