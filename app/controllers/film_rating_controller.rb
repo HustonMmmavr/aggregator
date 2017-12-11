@@ -21,17 +21,6 @@ class FilmRatingController < ApplicationController
     render :json => {:respMsg => "Ok"}, :status => 200
   end
 
-  def get_rating()
-    filmId = params[:filmId]
-    res = send_req(@@url_film_rating_service, 'get_rating', 'get', [filmId])
-
-    if res[:status] != 200
-      render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-    end
-
-    res[:filmAvgRating]
-  end
-
   def get_users_by_film()
     filmId = params[:id]
     p filmId
@@ -99,3 +88,14 @@ class FilmRatingController < ApplicationController
     return render :json => {:user => user, :films_rated_by_user => films}, :status => 200
   end
 end
+
+# def get_rating()
+#   filmId = params[:filmId]
+#   res = send_req(@@url_film_rating_service, 'get_rating', 'get', [filmId])
+#
+#   if res[:status] != 200
+#     render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+#   end
+#
+#   res[:filmAvgRating]
+# end

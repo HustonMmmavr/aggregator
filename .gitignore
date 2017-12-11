@@ -17,6 +17,7 @@
 !/log/.keep
 !/tmp/.keep
 .idea/*
+/coverage
 
 /node_modules
 /yarn-error.log

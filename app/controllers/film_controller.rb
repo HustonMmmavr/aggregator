@@ -9,18 +9,17 @@ class FilmController < ApplicationController
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
 
-    render :json => {:data => res[:films]}, :status => 200
+    render :json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
   end
 
   def add_film()
-    p params[:film]
     res = send_req(@@url_film_service, 'add_film', 'post', params[:film])
-    p res
-    if res != 200
+
+    if res[:status] > 300
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
 
-    render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+    render :json => {:respMsg => res[:respMsg], :data => res[:data]}, :status => res[:status]
   end
 
 
@@ -31,7 +30,7 @@ class FilmController < ApplicationController
     if res[:status] != 200
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
-    render :json => {:data => res[:film]}, :status => 200
+    render :json => {:respMsg => "Ok", :data => res[:film]}, :status => 200
   end
 
   def get_films_count()
@@ -40,7 +39,7 @@ class FilmController < ApplicationController
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
     @films_count = res[:filmsCount]
-    render :json => {:filmsCount => @films_count}, :status => 200
+    render :json => {:respMsg => "Ok",:filmsCount => @films_count}, :status => 200
   end
 
   # to films and films_rating
