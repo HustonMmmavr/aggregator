@@ -14,18 +14,18 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2017-12-11T14:36:02+03:00">2017-12-11T14:36:02+03:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2017-12-11T20:32:03+03:00">2017-12-11T20:32:03+03:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">92.99%</span></span>
+    (<span class="covered_percent"><span class="green">92.52%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         4.42
+         4.7
        </span>
     </span> hits/line)
   </h2>
@@ -33,8 +33,8 @@
   <div>
     <b>12</b> files in total.
     <b>214</b> relevant lines. 
-    <span class="green"><b>199</b> lines covered</span> and
-    <span class="red"><b>15</b> lines missed </span>
+    <span class="green"><b>198</b> lines covered</span> and
+    <span class="red"><b>16</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -57,7 +57,7 @@
         <td>44</td>
         <td>37</td>
         <td>7</td>
-        <td>12.3</td>
+        <td>13.1</td>
       </tr>
       
       <tr>
@@ -67,7 +67,7 @@
         <td>21</td>
         <td>21</td>
         <td>0</td>
-        <td>9.9</td>
+        <td>10.6</td>
       </tr>
       
       <tr>
@@ -87,7 +87,7 @@
         <td>48</td>
         <td>45</td>
         <td>3</td>
-        <td>1.6</td>
+        <td>1.8</td>
       </tr>
       
       <tr>
@@ -162,11 +162,11 @@
       
       <tr>
         <td class="strong"><a href="#c262c63f039da0aecce2ddf49e23d91d08508035" class="src_link" title="spec/controllers/user_controller_spec.rb">spec/controllers/user_controller_spec.rb</a></td>
-        <td class="green strong">100.0 %</td>
+        <td class="green strong">95.45 %</td>
         <td>37</td>
         <td>22</td>
-        <td>22</td>
-        <td>0</td>
+        <td>21</td>
+        <td>1</td>
         <td>1.0</td>
       </tr>
       
@@ -224,32 +224,32 @@
           <code class="ruby">  def response_to_hash(response)</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="5">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="5">
+          <span class="hits">33</span>
           
           <code class="ruby">    hash = JSON.load(response.body)</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="6">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="6">
+          <span class="hits">33</span>
           
           <code class="ruby">    p hash</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="7">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="7">
+          <span class="hits">33</span>
           
           <code class="ruby">    hash[&#39;status&#39;] = response.code.to_i</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="8">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="8">
+          <span class="hits">33</span>
           
           <code class="ruby">    hash.keys.each do |key|</code>
         </li>
       
-        <li class="covered" data-hits="78" data-linenumber="9">
-          <span class="hits">78</span>
+        <li class="covered" data-hits="82" data-linenumber="9">
+          <span class="hits">82</span>
           
           <code class="ruby">      hash[(key.to_sym rescue key) || key] = hash.delete(key)</code>
         </li>
@@ -260,14 +260,14 @@
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="11">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="11">
+          <span class="hits">33</span>
           
           <code class="ruby">    p hash</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="12">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="12">
+          <span class="hits">33</span>
           
           <code class="ruby">    return hash</code>
         </li>
@@ -386,26 +386,26 @@
           <code class="ruby">  def send_get(path, params = nil, query_params = nil)</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="32">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="32">
+          <span class="hits">22</span>
           
           <code class="ruby">    begin</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="33">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="33">
+          <span class="hits">22</span>
           
           <code class="ruby">      if params</code>
         </li>
       
-        <li class="covered" data-hits="19" data-linenumber="34">
-          <span class="hits">19</span>
+        <li class="covered" data-hits="21" data-linenumber="34">
+          <span class="hits">21</span>
           
           <code class="ruby">        params.each do |param|</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="35">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="35">
+          <span class="hits">22</span>
           
           <code class="ruby">          path += &quot;/&quot; + param.to_s</code>
         </li>
@@ -422,14 +422,14 @@
           <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="38">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="38">
+          <span class="hits">22</span>
           
           <code class="ruby">      uri = URI::parse(path)</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="39">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="39">
+          <span class="hits">22</span>
           
           <code class="ruby">      if query_params != nil</code>
         </li>
@@ -446,20 +446,20 @@
           <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="42">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="42">
+          <span class="hits">22</span>
           
           <code class="ruby">      response = Net::HTTP.get_response(uri)</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="43">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="43">
+          <span class="hits">22</span>
           
           <code class="ruby">      p response</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="44">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="44">
+          <span class="hits">22</span>
           
           <code class="ruby">      return response_to_hash(response)</code>
         </li>
@@ -669,44 +669,44 @@
           <code class="ruby">  def send_req(server_addr, server_method, method, params = nil, query_params = nil)</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="13">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="13">
+          <span class="hits">33</span>
           
-          <code class="ruby">    path = &#39;http://&#39; + server_addr + &#39;/&#39; + server_method</code>
+          <code class="ruby">    path = &#39;http://&#39; + server_addr + server_method</code>
         </li>
       
-        <li class="covered" data-hits="31" data-linenumber="14">
-          <span class="hits">31</span>
+        <li class="covered" data-hits="33" data-linenumber="14">
+          <span class="hits">33</span>
           
           <code class="ruby">    if method == &quot;get&quot;</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="15">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="15">
+          <span class="hits">22</span>
           
           <code class="ruby">      if params != nil</code>
         </li>
       
-        <li class="covered" data-hits="19" data-linenumber="16">
-          <span class="hits">19</span>
+        <li class="covered" data-hits="21" data-linenumber="16">
+          <span class="hits">21</span>
           
           <code class="ruby">        if !params.kind_of?(Array)</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="17">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="20" data-linenumber="17">
+          <span class="hits">20</span>
           
           <code class="ruby">          arr = []</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="18">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="20" data-linenumber="18">
+          <span class="hits">20</span>
           
           <code class="ruby">          arr.push params</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="19">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="20" data-linenumber="19">
+          <span class="hits">20</span>
           
           <code class="ruby">          params = arr</code>
         </li>
@@ -723,8 +723,8 @@
           <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="20" data-linenumber="22">
-          <span class="hits">20</span>
+        <li class="covered" data-hits="22" data-linenumber="22">
+          <span class="hits">22</span>
           
           <code class="ruby">      return @@sender.send_get(path, params, query_params)</code>
         </li>
@@ -1255,7 +1255,7 @@
         <li class="covered" data-hits="1" data-linenumber="2">
           <span class="hits">1</span>
           
-          <code class="ruby">  @@films_on_page = 5</code>
+          <code class="ruby">  @@films_on_page = 7</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="3">
@@ -1913,32 +1913,32 @@
           <code class="ruby">    user_ids.each do |id|</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="46">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="5" data-linenumber="46">
+          <span class="hits">5</span>
           
           <code class="ruby">      p id</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="47">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="5" data-linenumber="47">
+          <span class="hits">5</span>
           
           <code class="ruby">      res = send_req(@@url_user_service, &#39;get_user_by_id&#39;, &#39;get&#39;, id)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="48">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="5" data-linenumber="48">
+          <span class="hits">5</span>
           
           <code class="ruby">      p res</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="49">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="5" data-linenumber="49">
+          <span class="hits">5</span>
           
           <code class="ruby">      if res[:status] &lt; 500</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="50">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="5" data-linenumber="50">
+          <span class="hits">5</span>
           
           <code class="ruby">        users.push(res[:user])</code>
         </li>
@@ -2864,11 +2864,11 @@
         <div class="source_table" id="c262c63f039da0aecce2ddf49e23d91d08508035">
   <div class="header">
     <h3>spec/controllers/user_controller_spec.rb</h3>
-    <h4><span class="green">100.0 %</span> covered</h4>
+    <h4><span class="green">95.45 %</span> covered</h4>
     <div>
       <b>22</b> relevant lines. 
-      <span class="green"><b>22</b> lines covered</span> and
-      <span class="red"><b>0</b> lines missed.</span>
+      <span class="green"><b>21</b> lines covered</span> and
+      <span class="red"><b>1</b> lines missed.</span>
     </div>
   </div>
   
@@ -2971,8 +2971,8 @@
           <code class="ruby">      expect(response.status).to eq(201)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="17">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="17">
+          
           
           <code class="ruby">      expect(data[&#39;respMsg&#39;]).to eq(&quot;Ok&quot;)</code>
         </li>

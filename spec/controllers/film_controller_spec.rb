@@ -6,7 +6,7 @@ RSpec.describe FilmController, :type => :controller do
       get :film, params: {'id' => 100} #params#6 #{:id => 6}
 
       data = JSON.parse(response.body)
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(200)
       expect(data['respMsg']).to eq("No such film")
     end
 

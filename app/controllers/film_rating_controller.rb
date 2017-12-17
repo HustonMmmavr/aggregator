@@ -1,8 +1,12 @@
+require_dependency "#{Rails.root.join('app', 'services', 'publisher.rb')}"
+
 class FilmRatingController < ApplicationController
 
   def set_rating()
     filmId = params[:filmId]
     filmRating = params[:filmRating]
+
+
 
     res = send_req(@@url_film_rating_service, 'set_rating', 'post',
       {:userId => params[:userId], :filmId => params[:filmId], :filmRating => params[:filmRating]})

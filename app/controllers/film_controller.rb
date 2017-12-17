@@ -1,9 +1,25 @@
+require_dependency "#{Rails.root.join('app', 'services', 'publisher.rb')}"
+
 class FilmController < ApplicationController
-  @@films_on_page = 5
+  @@films_on_page = 7
   def films()
     page = Integer(params[:page])
+    count_on_page = params[:count]
+    arr = ['page', 'count']
 
-    res = send_req(@@url_film_service, 'get_films', 'get', [page * @@films_on_page, @@films_on_page])
+    if count_on_page = nil
+      count_on_page = @@films_on_page
+    end
+
+
+    arr.each do |key|
+      check = is_parameter_valid, key, params[key], @@int_regexp
+      if check != true
+        return render :json => {:respMsg => check}, :status => 400
+      end
+    end
+
+    res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page])
 
     if res[:status] != 200
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
@@ -13,8 +29,18 @@ class FilmController < ApplicationController
   end
 
   def add_film()
-    res = send_req(@@url_film_service, 'add_film', 'post', params[:film])
+    @@important_film_params.each do |key|
+      if key == 'filmLength' || key == 'filmYear'
+        check = is_parameter_valid key, params[key], @@int_regexp
+      else
+        check = is_parameter_valid key, params[key], nil
+      end
+      if check != true
+        return render :json => {:respMsg => check}, :status => 400
+      end
+    end
 
+    res = send_req(@@url_film_service, 'add_film', 'post', params[:film])
     if res[:status] > 300
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
@@ -22,9 +48,14 @@ class FilmController < ApplicationController
     render :json => {:respMsg => res[:respMsg], :data => res[:data]}, :status => res[:status]
   end
 
-
   def film()
     id = params[:id]
+
+    #TODO check params
+    check_film_id = is_parameter_valid 'id', id, @@int_regexp
+    if check_film_id != true
+      return render :json => {:respMsg => check_film_id}, :status => 400
+    end
 
     res = send_req(@@url_film_service, 'get_film', 'get', id)
     if res[:status] != 200
@@ -45,6 +76,13 @@ class FilmController < ApplicationController
   # to films and films_rating
   def delete_film()
     id = params[:id]
+
+    #TODO check params
+    check_film_id = is_parameter_valid 'id', id, @@int_regexp
+    if check_film_id != true
+      return render :json => {:respMsg => check_film_id}, :status => 400
+    end
+
     res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
 
     # todo vcheck 503 and 400
