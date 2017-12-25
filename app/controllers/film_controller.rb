@@ -1,23 +1,23 @@
-require_dependency "#{Rails.root.join('app', 'services', 'publisher.rb')}"
+# require_dependency "#{Rails.root.join('app', 'services', 'publisher.rb')}"
 
 class FilmController < ApplicationController
   @@films_on_page = 7
   def films()
-    page = Integer(params[:page])
-    count_on_page = params[:count]
-    arr = ['page', 'count']
-
-    if count_on_page = nil
-      count_on_page = @@films_on_page
+    if params[:count] == nil
+      params[:count] = @@films_on_page.to_s
     end
 
-
+    arr = ['page', 'count']
     arr.each do |key|
-      check = is_parameter_valid, key, params[key], @@int_regexp
+      check = is_parameter_valid key, params[key], @@int_regexp
       if check != true
         return render :json => {:respMsg => check}, :status => 400
       end
     end
+    p params
+
+    page = Integer(params[:page])
+    count_on_page = Integer(params[:count])
 
     res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page])
 
@@ -73,7 +73,8 @@ class FilmController < ApplicationController
     render :json => {:respMsg => "Ok",:filmsCount => @films_count}, :status => 200
   end
 
-  # to films and films_rating
+
+  # rabit
   def delete_film()
     id = params[:id]
 
@@ -83,19 +84,36 @@ class FilmController < ApplicationController
       return render :json => {:respMsg => check_film_id}, :status => 400
     end
 
-    res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+    # fr = {:host => @@url_film_rating_service, :server_method => 'delete_film_rating',
+        # :method => 'post', :data => {:filmId => id})
 
-    # todo vcheck 503 and 400
-    if res[:status] != 200
-      return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-    end
+    # fs = {:host => @@url_film_service, :server_method => 'delete_film',
+      # :method => 'delete', :data => {:id=> id})}
 
-    res = send_req(@@url_film_service, 'delete_film', 'delete', id)
+    DeleteJob.perform_async(id)
 
-    if res[:status] != 200
-      return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-    end
+    # Consumer.push('fs', id)
+    # Consumer.push('fr', id)
+    # DeleteJob.delete('fr', host, @@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+    # DeleteJob.delete ('fs', @@url_film_service, 'delete_film', 'delete', {:id=> id})
+    # params_to_fr = {:filmId => id}
+    # res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+    #
+    # if res[:status] == 503
+    #   p 'a'
+    #   ProducerJob.publish("fr", params_to_fr)
+    #   #return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+    # end
+    #
+    #
+    # params_to_fs = {:id => id}
+    # res = send_req(@@url_film_service, 'delete_film', 'delete', id)
+    # if res[:status] == 503
+    #   ProducerJob.publish("fs", params_to_fs)
+    #   # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+    # end
 
-    return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+    return render :json => {:respMsg => "Ok"}, :status => 200
+    # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
   end
 end

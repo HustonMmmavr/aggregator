@@ -10,6 +10,7 @@ end
 gem 'rails', '~> 5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+# gem 'sideqik'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -18,7 +19,14 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem  'sidekiq'
+gem 'redis-rails'
+gem 'redis-namespace'
+gem 'sneakers'
+gem 'redis-store-testing'
+gem 'mocha', '~> 0.14.0'
+gem 'appraisal'
+gem 'sidekiq'
 gem 'bunny'
 
 # Use CoffeeScript for .coffee assets and views

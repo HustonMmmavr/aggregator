@@ -1,10 +1,13 @@
-class Publisher
+class ProducerJob < ApplicationJob
+  @@queue_name = 'aggregator'
+  p 'started'
   # In order to publish message we need a exchange name.
   # Note that RabbitMQ does not care about the payload -
   # we will be using JSON-encoded strings
   def self.publish(exchange, message = {})
     # grab the fanout exchange
-    x = channel.fanout("blog.#{exchange}")
+    p 'im publishe'
+    x = channel.fanout("#{@@queue_name}.#{exchange}")
     # and simply publish message
     x.publish(JSON.dump(message))
   end

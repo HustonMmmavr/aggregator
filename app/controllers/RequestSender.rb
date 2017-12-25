@@ -57,6 +57,7 @@ class RequestSender
       end
       return response_to_hash(response)
     rescue => err
+      p err
       return @@server_not_avaliable
     end
   end
