@@ -4,8 +4,8 @@ class DeleteJob
   include Sidekiq::Worker
   @@sender = RequestSender.new
   def perform(id)
-    # p 'init'
-    # $redis.flushdbs
+    p 'init'
+    # $redis.flushdb
     # p Consumer.size
     # p
     # p id
@@ -27,20 +27,26 @@ class DeleteJob
     data1 = Consumer.pop('fs')
     data2 = Consumer.pop('fr')
     while data1 != nil || data2 != nil
-      id1 = data1[1]
-      res = @@sender.send_delete(fs, id1)
-      # p Consumer.size
-      if res[:status] == 503
-        Consumer.push('fs', id1)
+      p 'a'
+      p data1
+      p data2
+      if data1 != nil
+        id1 = data1[1]
+        res = @@sender.send_delete(fs, id1)
+        # p Consumer.size
+        if res[:status] == 503
+          Consumer.push('fs', id1)
+        end
       end
 
-      id2 = data2[1]
-      res = @@sender.send_post(fr, {:filmId=>id2})
-      # p Consumer.size
-      if res[:status] == 503
-        Consumer.push('fr', id2)
+      if data2 != nil
+        id2 = data2[1]
+        res = @@sender.send_post(fr, {:filmId=>id2})
+        # p Consumer.size
+        if res[:status] == 503
+          Consumer.push('fr', id2)
+        end
       end
-
       sleep(10)
 
       data1 = Consumer.pop('fs')

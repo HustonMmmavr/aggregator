@@ -22,7 +22,7 @@ class FilmRatingController < ApplicationController
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
     fr_res = res
-
+    p fr_res
     # trying to save rating to film, if its not availible then rollback
     params_to_fs = {:filmId => params[:filmId].to_s, :filmRating => res[:filmAvgRating].to_s}
     res = send_req(@@url_film_service, 'update_film', 'post', params_to_fs )
