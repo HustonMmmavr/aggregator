@@ -4,37 +4,47 @@ class DeleteJob
   include Sidekiq::Worker
   @@sender = RequestSender.new
   def perform(id)
-    p 'init'
+    # p 'init'
     # $redis.flushdbs
-    p Consumer.size
-    p
-    p id
+    # p Consumer.size
+    # p
+    # p id
+    fs = 'http://localhost:3005/delete_film'
+    fr = 'http://localhost:8000/delete_film_rating'
+
     if (id != nil)
-      res = @@sender.send_delete('http://localhost:3005/delete_film', id)
-      p res
+      res = @@sender.send_delete(fs, id)
       if res[:status] == 503
         Consumer.push('fs', id)
+      end
+
+      res = @@sender.send_post(fr, {:filmId => id})
+        if res[:status] == 503
+        Consumer.push('fr', id)
       end
     end
 
-    data = Consumer.pop('fs')
-    while data != nil
-      id = data[1]
-      # p id
-      # id= id[1]
-
-      res = @@sender.send_delete('http://localhost:3005/delete_film', id)
+    data1 = Consumer.pop('fs')
+    data2 = Consumer.pop('fr')
+    while data1 != nil || data2 != nil
+      id1 = data1[1]
+      res = @@sender.send_delete(fs, id1)
       # p Consumer.size
       if res[:status] == 503
-        Consumer.push('fs', id)
+        Consumer.push('fs', id1)
       end
 
-      # p res
+      id2 = data2[1]
+      res = @@sender.send_post(fr, {:filmId=>id2})
+      # p Consumer.size
+      if res[:status] == 503
+        Consumer.push('fr', id2)
+      end
 
-      sleep(1)
+      sleep(10)
 
-      data = Consumer.pop('fs')
-
+      data1 = Consumer.pop('fs')
+      data2 = Consumer.pop('fr')
       # id = Consumer.pop('fr')
       # res = send_req('localhost:3005', fr[:server_method], fr[:method], fr[:data])
       # if res[:status] == 503
