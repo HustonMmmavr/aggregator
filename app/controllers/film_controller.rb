@@ -2,6 +2,11 @@
 
 class FilmController < ApplicationController
   @@films_on_page = 7
+
+  def index
+    render "index"
+  end
+  
   def films()
     if params[:count] == nil
       params[:count] = @@films_on_page.to_s

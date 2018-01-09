@@ -41,7 +41,7 @@ class FilmRatingController < ApplicationController
 
   def get_users_by_film()
     filmId = params[:id]
-    check_film_id = is_parameter_valid 'id', id, @@int_regexp
+    check_film_id = is_parameter_valid 'id', filmId, @@int_regexp
     if check_film_id != true
       return render :json => {:respMsg => 'film id is inavlid'}, :status => 400
     end
