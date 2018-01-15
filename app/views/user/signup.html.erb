@@ -1,0 +1,30 @@
+<% provide(:title, 'Sign up') %>
+<h1>Sign up</h1>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-4">
+    <%= form_for(@user, {:url => :signup}) do |f| %>
+      <div class="form_input top_margin">
+        <%= f.label :userName, class:  "col-md-3 padding_label" %>
+        <%= f.text_field :userName %>
+      </div>
+
+      <div class="form_input">
+        <%= f.label :uesrEmail, class:  "col-md-3 " %>
+        <%= f.email_field :userEmail %>
+      </div>
+
+      <div class="form_input">
+        <%= f.label :userPassword, class:  "col-md-3" %>
+        <%= f.password_field :userPassword %>
+      </div>
+
+      <div class="form_input">
+        <%= f.label :repeatPassword, "Confirmation", class:  "col-md-3" %>
+        <%= f.password_field :repeatPassword %>
+      </div>
+
+      <%= f.submit "Create my account", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

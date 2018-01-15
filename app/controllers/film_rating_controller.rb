@@ -2,6 +2,7 @@
 
 class FilmRatingController < ApplicationController
   @@film_rating_params = ['userId', 'filmId', 'filmRating']
+  @@page = "1"
 
   def set_rating()
     filmId = params[:filmId]
@@ -80,7 +81,7 @@ class FilmRatingController < ApplicationController
   def get_films_by_user()
     userId = params[:id]
 
-    check_film_id = is_parameter_valid 'id', id, @@int_regexp
+    check_film_id = is_parameter_valid 'id', userId, @@int_regexp
     if check_film_id != true
       return render :json => {:respMsg => 'uesr id is invalid'}, :status => 400
     end

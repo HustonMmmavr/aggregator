@@ -3,12 +3,25 @@
   <head>
     <title>Aggregator</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
+</head>
 
-  <body>
+<body>
+  <header class="navbar navbar-inverse col-md-12">
+    <div class="cointainer-fluid col-md-12">
+      <%= link_to "Films", '#', id: "logo", :class => "navbar-brand navbar-left" %>
+      <nav>
+        <ul class="nav navbar-nav navbar-right col-md-3">
+          <li class="nav-item"><%= link_to "Home",   '#' , :class => "nav-link"%></li>
+          <li><%= link_to "H",   {:controller => "film", :action => "films", :page => 1} %></li>
+          <li><%= link_to "Log in", '#' %></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="cointainer-fluid">
     <%= yield %>
-  </body>
+  </div>
 </html>

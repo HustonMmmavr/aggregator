@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
   @@rating_regexp = /^[+-]?([1-9]\d*|0)(\.\d+)?$/
   @@email_regexp = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
+  @@page = "1"
+
 # /^[-+]?\d{0,2}(\.[05])?(?!\d)$//
 
 

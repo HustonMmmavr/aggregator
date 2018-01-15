@@ -13,7 +13,14 @@ class UserController < ApplicationController
         end
       end
     res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
+    # render "user/signup"
     return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+  end
+
+  def signup_ui()
+    @user = User.new
+    render "user/signup"
+
   end
 
   # def login()

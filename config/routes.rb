@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   get '/users_rated_film/:id', to: 'film_rating#get_users_by_film', :as => :get_users_by_films
   get '/films_rated_by_user/:id', to: 'film_rating#get_films_by_user', :as => :get_films_by_user
 
-  post '/signup', to: 'user#signup', :as => :signup
+  post '/api/signup', to: 'user#signup', :as => :signup
   # post '/login', to: 'user#login'
   get '/get_user/:id', to: 'user#get_user', :as => :get_user
+
+  get '/signup', to: 'user#signup_ui'
 end

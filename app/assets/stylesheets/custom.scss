@@ -1,0 +1,37 @@
+/* forms */
+
+// input, textarea, select, .uneditable-input {
+//   border: 1px solid #bbb;
+//   width: 100%;
+//   margin-bottom: 15px;
+//   // @include box_sizing;
+// }
+
+// h1 {
+//   width: 100% !important;
+// }
+
+input {
+  height: auto !important;
+}
+
+.row {
+  width: 100% !important;
+}
+
+header {
+  border-radius: 0px !important;
+}
+
+.field_input {
+  width: 100%;
+  margin-bottom: 15px !important;
+}
+
+.top_margin {
+  margin-top: 15px !important;
+}
+
+.padding_label {
+  padding: 4px !important;
+}
