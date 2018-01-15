@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/bootstrap-ruby/rails-bootstrap-forms.git
+  revision: ef7de8fb57bbf2a61c994105b2199930d3dc575d
+  branch: master
+  specs:
+    bootstrap_form (4.0.0.dev)
+      rails (>= 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -264,6 +272,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal
   bootstrap-sass (~> 3.3.7)
+  bootstrap_form!
   bunny
   byebug
   capybara (~> 2.13)
