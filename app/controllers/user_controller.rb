@@ -19,7 +19,7 @@ class UserController < ApplicationController
   end
 
 
-  def signup_ui()
+  def signup_post()
     user = params[:user]
     @@important_user_params.each do |key|
         if key == "userEmail"
@@ -37,14 +37,14 @@ class UserController < ApplicationController
     return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
   end
   # TODO check localy error and after check errors
-  def signup_page()
-    if @err == nil
+  def signup_get()
+    # if @err == nil
       @err = Array.new()
-    end
+    # end
 
-    if @user == nil
+    # if @user == nil
       @user = User.new
-    end
+    # end
     #
     # if @user.check() == false
     #   return render "user/signup"
@@ -71,7 +71,7 @@ class UserController < ApplicationController
       return render "user/signup"
     # end
     # render "films/films/1"
-end
+  end
 
   # def login()
   #   nick = params[:userName]
