@@ -15,7 +15,7 @@
   <% end %>
 
   <div class="col-md-4 col-md-offset-4">
-  <%= bootstrap_form_for(@user, {:url => :signup}) do |f| %>
+  <%= bootstrap_form_for(@user, {:url => :signup_ui_post}) do |f| %>
     <%= f.text_field :userName, label: "Nickname" %>
 
     <%= f.email_field :userEmail, label: "Email" %>

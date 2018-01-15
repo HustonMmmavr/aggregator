@@ -16,6 +16,6 @@ Rails.application.routes.draw do
   get '/get_user/:id', to: 'user#get_user', :as => :get_user
 
   get '/signup', to: 'user#signup_get', :as => :signup_ui
-  post '/signup', to: 'user#signup_ui', :as => :signup_ui_post
+  post '/signup', to: 'user#signup_post', :as => :signup_ui_post
 
 end
