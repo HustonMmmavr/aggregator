@@ -54,6 +54,44 @@ class FilmController < ApplicationController
     render :json => {:respMsg => res[:respMsg], :data => res[:data]}, :status => res[:status]
   end
 
+
+  def add_film_post()
+    @film = Film.new params[:film]
+    @err = @film.check()
+
+    if @err.size == 0
+      res = send_req(@@url_film_service, 'add_film', 'post', params[:film])
+      if res[:status] < 300
+        image = @film.filmImage
+        if image != nil
+          File.open(Rails.root.join('app', 'assets', 'images', 'films',
+              image.original_filename), "wb") do |file|
+            file.write(image.read)
+          end
+        end
+      else
+        if res[:status] == 503
+          @err.push("Error with service. Please, try later!")
+        else
+          @err.push(res[:respMsg] + " " + res[:status].to_s)
+        end
+      end
+    end
+
+    if @err.size == 0
+      #redirect "/"
+    end
+
+    return render "film/create_film"
+  end
+
+
+  def add_film_get()
+    @film = Film.new
+    @err = Array.new
+    render "film/create_film"
+  end
+
   def film()
     id = params[:id]
 

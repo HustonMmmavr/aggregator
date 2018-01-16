@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   get 'index', to: 'film#index'
-  get '/film/:id', to: 'film#film', :as => :film
-  get '/films/:page', to: 'film#films', :as => :films
+  get '/api/film/:id', to: 'film#film', :as => :film
+  get '/api/films/:page', to: 'film#films', :as => :films
   delete '/delete_film/:id', to: 'film#delete_film', :as => :delete_film
-  post '/add_film', to: 'film#add_film', :as => :add_film
+  post '/api/add_film', to: 'film#add_film', :as => :add_film
   get '/get_films_count', to: 'film#get_films_count', :as => :get_films_count
 
   post '/set_rating', to: 'film_rating#set_rating', :as => :set_ratin
@@ -15,7 +15,12 @@ Rails.application.routes.draw do
   # post '/login', to: 'user#login'
   get '/get_user/:id', to: 'user#get_user', :as => :get_user
 
+  # ui
   get '/signup', to: 'user#signup_get', :as => :signup_ui
   post '/signup', to: 'user#signup_post', :as => :signup_ui_post
 
+  get '/add_film', to: 'film#add_film_get', :as => :add_film_get
+  post '/add_film', to: 'film#add_film_post', :as => :add_film_post
+  get '/film/:id', to: 'film#film_ui', :as => :film_ui
+  get '/films/:page', to: 'film#films_ui', :as => :films_ui 
 end

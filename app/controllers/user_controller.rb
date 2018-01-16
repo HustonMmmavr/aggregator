@@ -55,7 +55,6 @@ class UserController < ApplicationController
 
   # TODO check localy error and after check errors
   def signup_get()
-    @hash_form = @@hash_form
     @err = Array.new()
     @user = User.new()
     return render "user/signup"
