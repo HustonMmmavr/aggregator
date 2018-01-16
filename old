@@ -1,0 +1,56 @@
+<div class="form_input">
+  <%= f.label :uesrEmail, class:  "col md 3 " %>
+  <%= f.email_field :userEmail %>
+<div class="field_input col md 12">
+  <%= f.label :uesrEmail, class:  "col md 3 padding_label" %>
+  <%= f.email_field :userEmail, class: "col md 9" %>
+</div>
+
+<div class="form_input">
+  <%= f.label :userPassword, class:  "col md 3" %>
+  <%= f.password_field :userPassword %>
+<div class="field_input col md 12">
+  <%= f.label :userPassword, class:  "col md 3 padding_label" %>
+  <%= f.password_field :userPassword, class: "col md 9" %>
+</div>
+
+<div class="form_input">
+  <%= f.label :repeatPassword, "Confirmation", class:  "col md 3" %>
+  <%= f.password_field :repeatPassword %>
+<div class="field_input col md 12">
+ <%= f.label :repeatPassword, "Confirmation", class:  "col md 3 padding_label" %>
+ <%= f.password_field :repeatPassword, class: "col md 9" %>
+</div>
+
+
+       <div class="form-group  field_input top_margin col-md-12">
+         <%= f.label :userName, class:  "col-md-3 control-label padding_label" %>
+         <div class="col-md-9">
+           <%= f.text_field :userName, class: "col-md-12 form-control", :required => true  %>
+         </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+      <div class="form-group  field_input top_margin col-md-12">
+        <%= f.label :userName, class:  "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.text_field :userName, class: "col-md-12 form-control", :required => true  %>
+        </div>
+       <div class="help-block with-errors"> </div>
+     </div>
+
+     <div class="form-group  field_input top_margin col-md-12">
+       <%= f.label :userName, class:  "col-md-3 control-label padding_label" %>
+       <div class="col-md-9">
+         <%= f.text_field :userName, class: "col-md-12 form-control", :required => true  %>
+       </div>
+      <div class="help-block with-errors"> </div>
+    </div>
+
+    <div class="form-group  field_input top_margin col-md-12">
+      <%= f.label :userName, class:  "col-md-3 control-label padding_label" %>
+      <div class="col-md-9">
+        <%= f.text_field :userName, class: "col-md-12 form-control", :required => true  %>
+      </div>
+     <div class="help-block with-errors"> </div>
+    </div>
