@@ -15,15 +15,60 @@
     <% end %>
   <% end %>
 
-  <div class="col-md-4 col-md-offset-4">
-    <%= bootstrap_form_for(@user, {:url => :signup_ui_post}) do |f| %>
-      <%= f.text_field :userName, label: "Nickname" %>
-      <%= f.email_field :userEmail, label: "Email" %>
-      <%= f.password_field :userPassword, label: "Password" %>
-      <%= f.password_field :repeatPassword, label: "Confirm" %>
-      <%= f.text_field :userAbout, label: "About" %>
-      <%= f.file_field :userImage, label: "data" %>
-      <%= f.submit "Log In", class: "col-md-12" %>
+  <div class="col-md-4 col-md-offset-4" data toggle="validator">
+    <%= form_for @user, {:url => :signup_ui_post, :html => {:class => "form-group", 'data-toggle' => "validator"}} do |f| %>
+
+      <div class="form-group  field_input top_margin col-md-12">
+        <%= f.label :userName, "Name", class:  "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.text_field :userName,  class: "col-md-12 form-control", :required => true  %>
+        </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+      <div class="form-group field_input col-md-12">
+        <%= f.label :userEmail, "Email", class: "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.email_field :userEmail, class: "col-md-12 form-control", :required => true  %>
+        </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+      <div class="form-group field_input col-md-12">
+        <%= f.label :userPassword, "Password", class: "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.password_field :userPassword, class: "col-md-12 form-control", :required => true, 'data-minlength'=> 6  %>
+        </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+      <div class="form-group field_input col-md-12">
+        <%= f.label :repeatPassword, "Confirm",  class: "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.password_field :repeatPassword, class: "col-md-12 form-control", :required => true, 'data-minlength'=> 6  %>
+        </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+      <div class="form-group  field_input col-md-12">
+        <%= f.label :userAbout, "About", class:  "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.text_field :userAbout, class: "col-md-12 form-control"  %>
+        </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+      <div class="form-group  field_input col-md-12">
+        <%= f.label :userImage, "Image", class:  "col-md-3 control-label padding_label" %>
+        <div class="col-md-9">
+          <%= f.file_field :userImage, class: "col-md-12 form-control"  %>
+        </div>
+        <div class="help-block with-errors"> </div>
+      </div>
+
+
+      <%= f.submit "Create my account", class: "btn btn primary col-md-12" %>
+   </div>
     <% end %>
   </div>
 </div>

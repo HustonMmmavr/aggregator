@@ -1,5 +1,7 @@
 class UserController < ApplicationController
   # todo check for valid
+
+  @@hash_form = {:userName => "Name"}
   def signup()
     user = params[:user]
     @@important_user_params.each do |key|
@@ -38,6 +40,7 @@ class UserController < ApplicationController
     # end
     if @err.size == 0
       p 'h'
+      # @hash_form = @@hash_form
       res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
       if res[:status] == 503
         @err.push("Error with service. Please, try later!")
@@ -57,6 +60,7 @@ class UserController < ApplicationController
 
   # TODO check localy error and after check errors
   def signup_get()
+    @hash_form = @@hash_form
     @err = Array.new()
     @user = User.new()
     return render "user/signup"
