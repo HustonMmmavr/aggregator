@@ -2,12 +2,10 @@ class Film
   include ActiveModel::Model
   attr_accessor :filmTitle, :filmAbout, :filmLength, :filmYear, :filmDirector,
               :filmImage, :filmRating
-  attr_accessor :userName, :userPassword, :userEmail,
-    :repeatPassword, :userAbout, :userImage
 
     def initialize(data = nil)
       if data != nil
-        @filmTitle = data[:userName]
+        @filmTitle = data[:filmTitle]
         @filmYear = data[:filmYear]
         @filmDirector = data[:filmDirector]
         @filmAbout = data[:filmAbout]
@@ -21,7 +19,7 @@ class Film
       hash = {}
       hash[:filmTitle] = @filmTitle
       hash[:filmYear] = @filmYear
-      hash[:filmDirector] @filmDirector
+      hash[:filmDirector] = @filmDirector
       hash[:filmAbout] = @filmAbout
       if @filmImage != nil
         hash[:filmImage] = @filmImage = data[:filmImage]
@@ -32,22 +30,40 @@ class Film
       end
       hash
     end
+    @@important_params = ['filmTitle', 'filmAbout', 'filmLength', 'filmYear', 'filmDirector']
+
     def check (err)
       # p self.userPassword
-      if @userPassword == nil || @userPassword == ""
-        err.push("Password cant be empty")
+      if @filmTitle == nil || @filmTitle == ""
+        err.push("Title cant be empty")
       end
 
-      if @userName == nil || @userName == ""
-        err.push "Name cant be empty"
+      if @filmAbout == nil || @filmAbout == ""
+        err.push "About cant be empty"
       end
 
-      if @userEmail == nil || @usrEmail == ""
-        err.push("Email cant be empty")
+      if @filmLength == nil || @filmLength == ""
+        err.push("Length cant be empty")
+      else
+        begin 
+          data = @filmLength.to_i
+        rescue => err
+          err.push("Lenght is not an integer")
+        end
       end
 
-      if @userPassword != @repeatPassword
-        err.push("Passwords doesn't match")
+      if @filmYear == "" || @filmYear == nil
+        err.push("Year cant be empty")
+      else
+        begin 
+          data = @filmYera.to_i
+        rescue => err
+          err.push("Year is not an integer")
+        end
+      end
+
+      if @filmDirector != @filmDirector
+        err.push("Director cant be empty")
       end
     end
 end
