@@ -23,29 +23,26 @@ class UserController < ApplicationController
 
   def signup_post()
     @user = User.new params[:user]
-    p @user.userPassword
     @err = Array.new()
-    @user.check( @err)
+    @user.check(@err)
 
-    p @err
-    # @@important_user_params.each do |key|
-    #   if key == "userEmail"
-    #     check = is_parameter_valid key, @user[key], @@email_regexp
-    #   else
-    #     check = is_parameter_valid key, @user[key], nil
-    #   end
-    #   if check != true
-    #     @err.push(check)
-    #   end
-    # end
+    # p '--------------------------------------------------'
+    # p @user.userImage.original_filename
     if @err.size == 0
-      p 'h'
-      # @hash_form = @@hash_form
-      res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
-      if res[:status] == 503
-        @err.push("Error with service. Please, try later!")
+      res = send_req(@@url_user_service, 'create_user', 'post', @user.to_hash)
+      if res[:status] < 300
+        image = @user.userImage
+        if image != nil
+          File.open(Rails.root.join('app', 'assets', 'images', image.original_filename), "wb") do |file|
+            file.write(image.read)
+          end
+        end
       else
-        @err.push(res[:respMsg])
+        if res[:status] == 503
+          @err.push("Error with service. Please, try later!")
+        else
+          @err.push(res[:respMsg] + " " + res[:status].to_s)
+        end
       end
     end
 
@@ -54,8 +51,6 @@ class UserController < ApplicationController
     end
 
     return render "user/signup"
-
-    # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
   end
 
   # TODO check localy error and after check errors
@@ -78,6 +73,19 @@ class UserController < ApplicationController
     return render :json => {:respMsg => res[:respMsg], :data => res[:user]}, :status => res[:status]
   end
 end
+
+
+# p @err
+# @@important_user_params.each do |key|
+#   if key == "userEmail"
+#     check = is_parameter_valid key, @user[key], @@email_regexp
+#   else
+#     check = is_parameter_valid key, @user[key], nil
+#   end
+#   if check != true
+#     @err.push(check)
+#   end
+# end
 #
 #
 # end

@@ -6,7 +6,7 @@ class FilmController < ApplicationController
   def index
     render "index"
   end
-  
+
   def films()
     if params[:count] == nil
       params[:count] = @@films_on_page.to_s
@@ -49,6 +49,7 @@ class FilmController < ApplicationController
     if res[:status] > 300
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
+
 
     render :json => {:respMsg => res[:respMsg], :data => res[:data]}, :status => res[:status]
   end

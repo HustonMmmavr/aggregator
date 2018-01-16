@@ -23,6 +23,30 @@ body {
   margin-bottom: 15px !important;
 }
 
+.pad0 {
+  padding: 0px !important;
+}
+
+
+.upload-div
+{
+	min-height: 120px;
+}
+
+.upload-img-div
+{
+	float: left;
+}
+
+.upload-img
+{
+	padding: 15px;
+	max-width: 120px;
+	float: left;
+	max-height: 90px;
+	display: inline;
+}
+
 .top_margin {
   margin-top: 15px !important;
 }

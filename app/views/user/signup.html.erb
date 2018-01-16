@@ -50,22 +50,20 @@
         <div class="help-block with-errors"> </div>
       </div>
 
-      <div class="form-group  field_input col-md-12">
-        <%= f.label :userAbout, "About", class:  "col-md-3 control-label padding_label" %>
-        <div class="col-md-9">
-          <%= f.text_field :userAbout, class: "col-md-12 form-control"  %>
-        </div>
-        <div class="help-block with-errors"> </div>
+      <div class="col-md-12 col-xs-12 pad0 upload-img-div">
+        <%= image_tag "noavatar.jpg", id: "img_signup_settings", class: "upload-img" %>
       </div>
 
       <div class="form-group  field_input col-md-12">
         <%= f.label :userImage, "Image", class:  "col-md-3 control-label padding_label" %>
         <div class="col-md-9">
-          <%= f.file_field :userImage, class: "col-md-12 form-control"  %>
+          <label class="upload file-upload filebordered" id="fff" for="user_userImage">
+            <mark class="pad0"></mark><span class="btn btn-success btnfileupload">Upload</span>
+            <%= f.file_field :userImage, class: "col-md-12 form-control", style: "display: none;"  %>
+          </label>
         </div>
         <div class="help-block with-errors"> </div>
       </div>
-
 
       <%= f.submit "Create my account", class: "btn btn primary col-md-12" %>
    </div>
