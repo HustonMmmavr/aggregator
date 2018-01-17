@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   get '/', to: 'film#films_get', :as => :root
-  get '/:page', to: 'film#films_get', :as => :root_films
   # get 'index', to: 'film#index'
   get '/api/film/:id', to: 'film#film', :as => :film
   get '/api/films/:page', to: 'film#films', :as => :films
@@ -25,5 +24,8 @@ Rails.application.routes.draw do
   post '/add_film', to: 'film#add_film_post', :as => :add_film_post
   get '/film/:id', to: 'film#film_get', :as => :film_get
   get '/films/:page', to: 'film#films_get', :as => :films_get
+
+  get '/:page', to: 'film#films_get', :as => :root_films
+
 
 end
