@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get 'index', to: 'film#index'
+  get '/', to: 'film#films_get', :as => :root
+  get '/:page', to: 'film#films_get', :as => :root_films
+  # get 'index', to: 'film#index'
   get '/api/film/:id', to: 'film#film', :as => :film
   get '/api/films/:page', to: 'film#films', :as => :films
   delete '/delete_film/:id', to: 'film#delete_film', :as => :delete_film

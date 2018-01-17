@@ -1,0 +1,9 @@
+todo
+1) all films and pagination (todo styles) +- -> (styles, page)
+2) users related to film (up - film, users) (we can choose user) p - -> (ajax, page)
+3) films rated by user (user ans films) (we can choose film) p - refactor 2
+4) signup +
+5) create film +
+6) login -
+7) set rating - in one film with users (ajax) - find in django
+8) delete film - button in one film (ajax) - ind in django

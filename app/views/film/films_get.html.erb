@@ -1,8 +1,32 @@
-<% i = 0 %>
-<div class="col-md-4 col-md-offset-4">
-  <% films.each do |film| %>
-    <div>
-      <%= film %>
-    </div>
-    <%end%>
+<% provide(:title, 'All films') %>
+<h1>All films</h1>
+
+<div class = "col-md-8 col-md-offset-2 bordered">
+  <% @films.each do |film| %>
+     <div class="martop15 col-md-12 col-xs-12 bordered">
+       <div class="film-area pad0">
+         <div class="film-block padtopbot15">
+           <div class="film-info col-xs-2 col-md-1">
+             <%= image_tag film["filmImage"] != nil ? film["filmImage"] : "noavatar.jpg" , class: "film-image"  %>
+           </div>
+
+           <div class="col-md-9 col-xs-9 answer-text">
+             <%= link_to film["filmTitle"], {:controller => "film", :action => "film_get", :id => film["filmId"]}%>
+             <div class="main-info-answer">
+               <p> Information: <%= film["filmAbout"] != nil ? film["filmAbout"] : "Sorry, no information about film" %> </p>
+             </div>
+
+             <div class="other-info">
+               <span class="answer">
+                 Rating of film:
+                 <%= film["sfilmRating"] %>
+               </span>
+               <!-- TDOO rate -->
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   <% end %>
+   <div class = "martop15 col-md-12 col-xs-12" > </div>
 </div>
