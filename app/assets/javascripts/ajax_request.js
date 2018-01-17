@@ -18,6 +18,13 @@ $(document).ready(function() {
          var el = document.getElementById("dr_" + id);
          el.innerHTML = resp['filmAvgRating'];
        }).fail(function(err) {
+         var el = document.getElementById("set_rating");
+         el.innerHTML = "<div style=\"color: red;\"> Sorry: Error on Service, try set rating later </div>" ;
+         // var notification = new Notification('Notification title', {
+           // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+           // body: "Hey there! You've been notified!",
+         // });
+
            console.log(err);
        });
    });
