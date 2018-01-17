@@ -4,7 +4,7 @@
     <div class="film-area pad0 col-xs-12 col-md-12 bordered martop15">
       <div class="film-block col-xs-12 col-md-12 padtopbot15">
         <div class="padleft0 col-xs-2 col-md-1">
-          <%= image_tag @film["filmImage"] != nil ? @film["filmImage"] : "noavatar.jpg" , class: "film-image padleft0"  %>
+          <%= image_tag @film["filmImage"] != nil ? @film["filmImage"] : "films/nothing.png" , class: "film-image padleft0"  %>
         </div>
 
         <div class="col-md-9 col-xs-9 answer-text">
@@ -24,17 +24,27 @@
         <p> Information: <%= @film["filmAbout"] != nil ? @film["filmAbout"] : "Sorry, no information about film" %> </p>
       </div>
     </div>
+
     <div id=<%="rate#{@film["filmId"]}"%> class="martop15 col-md-12 col-xs-12 bordered rate-div">
       <div id="set_rating"> Set Rating </div>
       <div>
         <fieldset class="rating">
           <% 10.downto(1) do |i| %>
-            <input type="radio" id=<%="star#{i}"%> class="film_rating" data-film_id=<%="#{@film['filmId']}"%> name="rating" value=<%="#{i}"%> />
+            <input type="radio" id=<%="star#{i}"%> class="film_rating" data-film_id=<%="#{@film['filmId']}"%> name="rating" value=<%="#{i}"%> onClick="<%="setRating(#{@film['filmId']}, #{i})"%>" />
             <label class = "full" for=<%="star#{i}"%> ></label>
           <%end%>
         </fieldset>
       </div>
     </div>
+
+    <div>
+      Delete
+    </div>
+
+    <div> Users rated this film
+
+    </div>
+
     <div class = "martop15 col-md-12 col-xs-12" > </div>
 
   </div>

@@ -15,7 +15,8 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require validator
-//= require ajax_request
+
+//= require set_rating
 
 //= require rails-ujs
 //= require turbolinks
