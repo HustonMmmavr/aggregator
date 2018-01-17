@@ -1,10 +1,7 @@
 class User
   include ActiveModel::Model
-  include Paperclip
   attr_accessor :userName, :userPassword, :userEmail,
     :repeatPassword, :userAbout, :userImage
-    # has_attached_file :userImage, default_url: "/images/"
-    # Read more at https://www.pluralsight.com/guides/ruby-ruby-on-rails/handling-file-upload-using-ruby-on-rails-5-api#3Pjho8QSThRVif6m.99
     def initialize(data = nil)
       if data != nil
         @userName = data[:userName]
@@ -23,7 +20,7 @@ class User
       hash[:userAbout] = @userAbout
       hash[:userPassword] = @userPassword
       if @userImage != nil
-        hash[:userAvatar] = @userImage.original_filename
+        hash[:userAva] = @userImage.original_filename
       end
       hash
     end

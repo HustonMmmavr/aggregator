@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   get '/add_film', to: 'film#add_film_get', :as => :add_film_get
   post '/add_film', to: 'film#add_film_post', :as => :add_film_post
-  get '/film/:id', to: 'film#film_ui', :as => :film_ui
-  get '/films/:page', to: 'film#films_ui', :as => :films_ui 
+  get '/film/:id', to: 'film#film_get', :as => :film_get
+  get '/films/:page', to: 'film#films_get', :as => :films_get
+
 end
