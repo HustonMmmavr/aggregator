@@ -1,1 +1,41 @@
-<!-- film and related users, ajax delet  -->
+<div>
+  <div class="martop15 col-md-10 col-xs-10 bordered col-md-offset-1">
+
+    <div class="film-area pad0 col-xs-12 col-md-12 bordered martop15">
+      <div class="film-block col-xs-12 col-md-12 padtopbot15">
+        <div class="padleft0 col-xs-2 col-md-1">
+          <%= image_tag @film["filmImage"] != nil ? @film["filmImage"] : "noavatar.jpg" , class: "film-image padleft0"  %>
+        </div>
+
+        <div class="col-md-9 col-xs-9 answer-text">
+          <%= link_to @film["filmTitle"], {:controller => "film", :action => "film_get", :id => @film["filmId"]}%>
+          <div class="main-info-answer">
+            <p> Year: <%= @film["filmYear"] %> </p>
+            <p> Director: <%= @film["filmDirector"] %> </p>
+            <p> Rating:
+              <span data-rating= <%= "dr_#{@film['filmId']}" %>>
+                <%= @film["filmRating"] %>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-12">
+        <p> Information: <%= @film["filmAbout"] != nil ? @film["filmAbout"] : "Sorry, no information about film" %> </p>
+      </div>
+    </div>
+    <div id=<%="rate#{@film["filmId"]}"%> class="martop15 col-md-12 col-xs-12 bordered rate-div">
+      <div> Set Rating </div>
+      <div>
+        <fieldset class="rating">
+          <% 1.upto(11) do |i| %>
+            <input type="radio" id=<%="star#{i}"%> data-film=<%="f_#{@film['filmId']}"%> name="rating" value=<%="#{i}"%> onclick="setRating()"/>
+            <label class = "full" for=<%="star#{i}"%> ></label>
+          <%end%>
+        </fieldset>
+      </div>
+    </div>
+    <div class = "martop15 col-md-12 col-xs-12" > </div>
+
+  </div>
+</div>

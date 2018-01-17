@@ -4,10 +4,10 @@
 <div class = "col-md-8 col-md-offset-2 bordered">
   <% @films.each do |film| %>
      <div class="martop15 col-md-12 col-xs-12 bordered">
-       <div class="film-area pad0">
+       <div class="film-area pad0 padtop5">
          <div class="film-block padtopbot15">
-           <div class="film-info col-xs-2 col-md-1">
-             <%= image_tag film["filmImage"] != nil ? film["filmImage"] : "noavatar.jpg" , class: "film-image"  %>
+           <div class="padleft0 col-xs-2 col-md-1">
+             <%= image_tag film["filmImage"] != nil ? film["filmImage"] : "noavatar.jpg" , class: "film-image padleft0"  %>
            </div>
 
            <div class="col-md-9 col-xs-9 answer-text">
@@ -18,15 +18,22 @@
 
              <div class="other-info">
                <span class="answer">
-                 Rating of film:
-                 <%= film["sfilmRating"] %>
+                 <%= link_to "Rating of film:", {:controller => "film", :action => "film_get", :id=> film['filmId'], :anchor => "rate#{film["filmId"]}"} %>
+                 <%= film["filmRating"] %>
                </span>
-               <!-- TDOO rate -->
              </div>
+
            </div>
          </div>
        </div>
      </div>
    <% end %>
    <div class = "martop15 col-md-12 col-xs-12" > </div>
+   <!-- render  -->
 </div>
+
+
+<!-- <div>
+  Rate this film:
+  <input type="text" class="form-control bfh-number" data-zeros="true" data-min="5" data-max="25">
+</div> -->

@@ -18,7 +18,7 @@ class FilmController < ApplicationController
     p params
 
     page = Integer(params[:page])
-    @count_on_page = Integer(params[:count])
+    count_on_page = Integer(params[:count])
 
     res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page])
 
@@ -34,8 +34,11 @@ class FilmController < ApplicationController
     # if res[:status] != 200
       # return render m:json => {:respMsg => res[:respMsg]}, :status => res[:status]
     # end
+    p @count_on_page
     count = res[:filmsCount]
-    pages = Math.round(count / @
+    pages, r = count.divmod(@count_on_page)
+    pages +=  (@count_on_page > r * 2 ? 0 : 1)
+  end
 
   def films_get()
     if params[:page] == nil || params[:page] == ""
@@ -45,6 +48,7 @@ class FilmController < ApplicationController
     if params[:count] == nil
       params[:count] = @@films_on_page.to_s
     end
+
 
     arr = ['page', 'count']
     arr.each do |key|
@@ -58,7 +62,7 @@ class FilmController < ApplicationController
 
     page = Integer(params[:page])
     count_on_page = Integer(params[:count])
-
+    @count_on_page = count_on_page
     res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page])
     if res[:status] != 200
       # @message = "#{res[:status]} #{res[:respMsg]}"
@@ -66,6 +70,7 @@ class FilmController < ApplicationController
     end
 
     @films = res[:films]
+    paginate
     # films_arr = []
     # res[:films].each do |film|
     #   films_arr.push(Film.new film)
@@ -160,8 +165,17 @@ class FilmController < ApplicationController
     id = params[:id]
     check_film_id = is_parameter_valid 'id', id, @@int_regexp
     if check_film_id != true
-      return render "errors/error"#:json => {:respMsg => check_film_id}, :status => 400
+      return render "errors/error", locals: {message: check_film_id}#:json => {:respMsg => check_film_id}, :status => 400
     end
+
+
+    res = send_req(@@url_film_service, 'get_film', 'get', id)
+    if res[:status] != 200
+      return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
+    end
+
+    @film = res[:film]
+
     render "film/film"
   end
 
