@@ -13,7 +13,7 @@
             <p> Year: <%= @film["filmYear"] %> </p>
             <p> Director: <%= @film["filmDirector"] %> </p>
             <p> Rating:
-              <span data-rating= <%= "dr_#{@film['filmId']}" %>>
+              <span id= <%= "dr_#{@film['filmId']}" %>>
                 <%= @film["filmRating"] %>
               </span>
             </p>
@@ -28,8 +28,8 @@
       <div> Set Rating </div>
       <div>
         <fieldset class="rating">
-          <% 1.upto(11) do |i| %>
-            <input type="radio" id=<%="star#{i}"%> data-film=<%="f_#{@film['filmId']}"%> name="rating" value=<%="#{i}"%> onclick="setRating()"/>
+          <% 10.downto(1) do |i| %>
+            <input type="radio" id=<%="star#{i}"%> class="film_rating" data-film_id=<%="#{@film['filmId']}"%> name="rating" value=<%="#{i}"%> />
             <label class = "full" for=<%="star#{i}"%> ></label>
           <%end%>
         </fieldset>

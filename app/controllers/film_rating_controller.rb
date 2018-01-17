@@ -8,6 +8,11 @@ class FilmRatingController < ApplicationController
     filmId = params[:filmId]
     filmRating = params[:filmRating]
 
+    p filmId
+    p filmRating
+    # its a crutch
+    params[:userId] = "15"
+    ######################################
     @@film_rating_params.each do |key|
       check = is_parameter_valid key, params[key], @@int_regexp
       if check != true
@@ -26,6 +31,7 @@ class FilmRatingController < ApplicationController
     p fr_res
     # trying to save rating to film, if its not availible then rollback
     params_to_fs = {:filmId => params[:filmId].to_s, :filmRating => res[:filmAvgRating].to_s}
+    avgRating = res[:filmAvgRating]
     res = send_req(@@url_film_service, 'update_film', 'post', params_to_fs )
     if res[:status] != 200
       #if rating updated, then change for old, else delete rating
@@ -37,7 +43,9 @@ class FilmRatingController < ApplicationController
       end
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
-    render :json => {:respMsg => "Ok"}, :status => 200
+    p '------------------'
+    p res
+    render :json => {:respMsg => "Ok", :filmAvgRating => avgRating}, :status => 200
   end
 
   def get_users_by_film()
