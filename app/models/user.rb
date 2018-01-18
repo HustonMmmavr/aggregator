@@ -20,7 +20,7 @@ class User
       hash[:userAbout] = @userAbout
       hash[:userPassword] = @userPassword
       if @userImage != nil
-        hash[:userAva] = @userImage.original_filename
+        hash[:userAvatar] = @userImage.original_filename
       end
       hash
     end

@@ -151,7 +151,33 @@ class FilmController < ApplicationController
 
     @film = res[:film]
 
-    render "film/film"
+    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', @film['filmId'],
+    {:search_by => 'film_id'})
+
+    if res[:status] == 503
+      @message = "Sorry, service error. Pleasy try later";
+      return render "film/film", locals: {users: nil, message: @message}
+    end
+
+    user_ids = res[:userId]
+    users = []
+    if user_ids != nil
+      user_ids.each do |id|
+        p id
+        res = send_req(@@url_user_service, 'get_user_by_id', 'get', id)
+        p res
+        if res[:status] < 500
+          p res[:user]
+          if res[:user] != nil
+            users.push(res[:user])
+          end
+        end
+      end
+    end
+
+    # p user/s
+
+    render "film/film", locals: {users: users, message: nil}
   end
 
   def film()

@@ -1,0 +1,16 @@
+<!-- todo render user -->
+<div class="delete_film col-md-12 col-xs-12 martop15 bordered" >
+  <div class="film-block col-xs-12 col-md-12 padtopbot15">
+    <div class="padleft0 col-xs-2 col-md-1">
+      <%= image_tag user["userAvatar"] != nil ? user["userAvatar"] : "noavatar.jpg" , class: "film-image padleft0"  %>
+    </div>
+
+    <div class="col-md-9 col-xs-9 answer-text">
+      <%= link_to user["userName"], {:controller => "user", :action => "get_user_by_nick", :nick => user["userName"]}%>
+      <div class="main-info-answer">
+        <p> Nick: <%= user["userName"] %> </p>
+        <p> Email: <%= user["userEmail"] == nil ? "sad@ewf.ed" : user["userEmail"] %> </p>
+      </div>
+    </div>
+  </div>
+</div>

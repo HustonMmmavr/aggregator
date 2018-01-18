@@ -1,11 +1,58 @@
 todo
-1) all films and pagination (only pagination)
-2) users related to film (up - film, users) (we can choose user) p -> (ajax, page)
-3) films rated by user (user ans films) (we can choose film) p - refactor 2
+4 la
+3) films rated by user (user ans films) (we can choose film) p - refactor 2 in process
+8) delete film - button in one film (ajax) - ind in django // think about post
+
+
+5 l
 6) login -
-8) delete film - button in one film (ajax) - ind in django //
 
 
+2) users related to film (up - film, users) +
+1) all films and pagination (only pagination) +
 7) set rating - in one film with users (ajax) - find in django +
 5) create film +
 4) signup +
+
+
+
+
+
+# p @err
+# @@important_user_params.each do |key|
+#   if key == "userEmail"
+#     check = is_parameter_valid key, @user[key], @@email_regexp
+#   else
+#     check = is_parameter_valid key, @user[key], nil
+#   end
+#   if check != true
+#     @err.push(check)
+#   end
+# end
+#
+#
+# end
+#
+# # if @user.errors.count == 0
+# #   p @user
+# # end
+# #
+# # res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
+# #
+# # if res[:status] > 200
+# #   if res[:status] == 409
+# #     @err.push(res[:data])
+# #   else
+# #     p res[:data]
+# #     @err.push(res[:data])
+# #     # p "error"
+# #     # @user.errors[:serverError] = "Error with server! Try later"
+# #   end
+# # end
+# # render "films/films/1"
+# end
+#
+# # def login()
+# #   nick = params[:userName]
+# #   pasw = params[:userPassword]
+# # end

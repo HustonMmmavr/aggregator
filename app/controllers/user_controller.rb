@@ -26,8 +26,6 @@ class UserController < ApplicationController
     @err = Array.new()
     @user.check(@err)
 
-    # p '--------------------------------------------------'
-    # p @user.userImage.original_filename
     if @err.size == 0
       res = send_req(@@url_user_service, 'create_user', 'post', @user.to_hash)
       if res[:status] < 300
@@ -53,11 +51,65 @@ class UserController < ApplicationController
     return render "user/signup"
   end
 
-  # TODO check localy error and after check errors
   def signup_get()
     @err = Array.new()
     @user = User.new()
     return render "user/signup"
+  end
+
+
+  def get_user_by_nick()
+    nick = params[:nick]
+
+    if nick == nil
+      return render :json  => {:respMsg => "userName cant be empty"}, :status => 400
+    end
+
+    res = send_req(@@url_user_service, 'get_user_by_name', 'get',nick)
+    if res[:status] != 200
+      return render :json => {:respMsg => res[:respMsg]}, status => res[:status]
+    end
+
+    render :json => {:user => res[:user]}, :status => res[:status]
+  end
+
+  def get_user_by_nick_ui()
+    nick = params[:nick]
+    if nick == nil
+
+    end
+
+    res = send_req(@@url_user_service, 'get_user_by_name', 'get', nick)
+    if res[:status] != 200
+      @message = res[:status].to_s + " " + res[:respMsg]
+      render "user/user"
+    end
+
+    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', userId,
+    {:search_by => 'user_id'})
+    if res[:status] != 200
+      return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+    end
+
+    film_ids = res[:filmId]
+
+    res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
+    if res[:status] != 200
+      user = "error with user service"
+    else
+      user = res[:user]
+    end
+
+    films = []
+    film_ids.each do |id|
+      res = send_req(@@url_film_service, 'get_film', 'get', id)
+      if res[:status] < 500
+        films.push(res[:film])
+      end
+    end
+
+    return render :json => {:film => film, :users_rated_this_film => users}, :status => 200
+
   end
 
   def get_user()
@@ -65,50 +117,9 @@ class UserController < ApplicationController
     if check_user_id != true
       return render :json => {:respMsg => check_user_id}, :status => 400
     end
-    # todo check if it id or nick and send
     id = params[:id]
     res = send_req(@@url_user_service, 'get_user_by_id', 'get',id)
     p res
     return render :json => {:respMsg => res[:respMsg], :data => res[:user]}, :status => res[:status]
   end
 end
-
-
-# p @err
-# @@important_user_params.each do |key|
-#   if key == "userEmail"
-#     check = is_parameter_valid key, @user[key], @@email_regexp
-#   else
-#     check = is_parameter_valid key, @user[key], nil
-#   end
-#   if check != true
-#     @err.push(check)
-#   end
-# end
-#
-#
-# end
-#
-# # if @user.errors.count == 0
-# #   p @user
-# # end
-# #
-# # res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
-# #
-# # if res[:status] > 200
-# #   if res[:status] == 409
-# #     @err.push(res[:data])
-# #   else
-# #     p res[:data]
-# #     @err.push(res[:data])
-# #     # p "error"
-# #     # @user.errors[:serverError] = "Error with server! Try later"
-# #   end
-# # end
-# # render "films/films/1"
-# end
-#
-# # def login()
-# #   nick = params[:userName]
-# #   pasw = params[:userPassword]
-# # end

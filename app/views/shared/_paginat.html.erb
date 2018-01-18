@@ -9,7 +9,7 @@
         <% if i == cur %>
           <%= link_to i, {controller: cont, action: act, page:  i}, class: "active_page" %>
         <% else %>
-          <%= link_to i, {controller: cont, action: act, page: i}, class: "active_page" %>
+          <%= link_to i, {controller: cont, action: act, page: i} %>
         <% end %>
       </li>
     <%end%>

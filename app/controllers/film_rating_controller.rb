@@ -11,7 +11,7 @@ class FilmRatingController < ApplicationController
     p filmId
     p filmRating
     # its a crutch
-    params[:userId] = "15"
+    params[:userId] = "18"
     ######################################
     @@film_rating_params.each do |key|
       check = is_parameter_valid key, params[key], @@int_regexp
