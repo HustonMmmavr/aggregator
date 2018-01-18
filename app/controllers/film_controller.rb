@@ -29,7 +29,7 @@ class FilmController < ApplicationController
     render :json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
   end
 
-  def paginate()
+  def paginate(current, offset = 2)
     res = send_req(@@url_film_service, 'get_films_count', 'get')
     # if res[:status] != 200
       # return render m:json => {:respMsg => res[:respMsg]}, :status => res[:status]
@@ -38,6 +38,11 @@ class FilmController < ApplicationController
     count = res[:filmsCount]
     pages, r = count.divmod(@count_on_page)
     pages +=  (@count_on_page > r * 2 ? 0 : 1)
+
+    start_ = current - offset > 0 ? pages - offset : 1
+    end_  = current + offset > pages ? pages : current + offset
+
+    return pages, start_, end_
   end
 
   def films_get()
@@ -54,8 +59,6 @@ class FilmController < ApplicationController
     arr.each do |key|
       check = is_parameter_valid key, params[key], @@int_regexp
       if check != true
-        p check
-        # @@message = check
         return render "errors/error", locals: {message: check}#:json => {:respMsg => res[:respMsg]}
       end
     end
@@ -65,42 +68,14 @@ class FilmController < ApplicationController
     @count_on_page = count_on_page
     res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page])
     if res[:status] != 200
-      # @message = "#{res[:status]} #{res[:respMsg]}"
       return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}#:json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
 
     @films = res[:films]
-    paginate
-    # films_arr = []
-    # res[:films].each do |film|
-    #   films_arr.push(Film.new film)
-    # end
+    pages, start_, end_ = paginate(page)
 
-    render "film/films_get"#, locals: {films: films_arr}#res[:films]}#:json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
+    render "film/films_get", locals: {st: start_, en: end_, cur: page}#, locals: {films: films_arr}#res[:films]}#:json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
   end
-  #
-  # <div class="martop15">
-  #   <div class="answer-area pad0">
-  #     <div class="answer-block padtopbot15">
-  #       <div class="answer-info col-xs-2 col-md-1">
-  #           <%= image_tag film[:filmImage] != nil ? film[:filmImage] : "noavatar.jpg"   %>
-  #       </div>
-  #       <div class="col-md-9 col-xs-9 answer-text">
-  #         <!-- <a href={%url 'question-url' question_number=question.id %} class>{{question.title}}</a> -->
-  #         <div class="main-info-answer">
-  #           <p><%= film[:filmAbout] %> </p>
-  #         </div>
-  #
-  #         <div class="other-info">
-  #             <span class="answer">
-  #               <%= film[:filmRating] %>
-  #             </span>
-  #               <!-- <a href={% url 'question-url' question_number=question.id %}> answer ({{answers_cnt}}) </a> </span> -->
-  #         </div>
-  #       </div>
-  #     </div>
-  #   </div>
-  # </div>
 
   def add_film()
     @@important_film_params.each do |key|

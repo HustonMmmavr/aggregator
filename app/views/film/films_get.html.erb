@@ -29,5 +29,5 @@
      </div>
    <% end %>
    <div class = "martop15 col-md-12 col-xs-12" > </div>
-   <!-- render  -->
+   <%= render_partial "shared/paginat", locals: {act: "film", con: "films_get", page: cur, st: st, en: en} 
 </div>
