@@ -74,7 +74,7 @@ class FilmController < ApplicationController
     @films = res[:films]
     pages, start_, end_ = paginate(page)
 
-    render "film/films_get", locals: {st: start_, en: end_, cur: page}#, locals: {films: films_arr}#res[:films]}#:json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
+    render "film/films_get", locals: {st: start_, en: end_, cur: page, :pages => pages, con: "film", act: "films_get"}#, locals: {films: films_arr}#res[:films]}#:json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
   end
 
   def add_film()

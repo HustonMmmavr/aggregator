@@ -36,6 +36,11 @@ body {
   padding-left: 0px !important;
 }
 
+.acive_page {
+  background-color: blue;
+  color: white;
+}
+
 .film-image {
   width: 100px !important;
   height: 100px !important;
@@ -123,6 +128,10 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > .half:before {
   content: "\f089";
   position: absolute;
+}
+
+.padbot25 {
+  padding-bottom: 25px;
 }
 
 .rating > label {

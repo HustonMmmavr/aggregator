@@ -29,5 +29,6 @@
      </div>
    <% end %>
    <div class = "martop15 col-md-12 col-xs-12" > </div>
-   <%= render_partial "shared/paginat", locals: {act: "film", con: "films_get", page: cur, st: st, en: en} 
+   <%= render partial: "shared/paginat",  locals: {st: st, en: en, cur: cur, pages: pages, cont: con, act: act} %>
 </div>
+<div class= "col-md-12 col-xs-12 padbot25"> </div>

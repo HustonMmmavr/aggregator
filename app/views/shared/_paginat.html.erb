@@ -1,18 +1,22 @@
 <ul class="pagination">
-   	<% if @objects. %>
-      <li> <%= link_to link, 
-         <li> <a href={% url paginator_url tag_name=tag.title page_num=objects.previous_page_number%} aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
-    {% endif %}
-    {% for page in page_range %}
-      {% if objects.number == page %}
-        <li><a href={% url paginator_url tag_name=tag.title page_num=page %} class="active_page">{{page}}</a></li>
-      {% else %}
-         <li> <a href={% url paginator_url tag_name=tag.title  page_num=page %}> {{page}} </a></li>
-      {%endif%}
-    {% endfor %}
-    {% if objects.has_next %}
+   	<% if st > 1 %>
       <li>
-      <a href={% url paginator_url tag_name=tag.title  page_num=objects.next_page_number%} aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+        <%= link_to "<span aria-hidden=\"true\">&laquo;</span>".html_safe, {controller: cont, action: act, page: st - 1} %>
       </li>
-    {% endif %}
+    <% end %>
+    <% st.upto(en) do |i| %>
+      <li>
+        <% if i == cur %>
+          <%= link_to i, {controller: cont, action: act, page:  i}, class: "active_page" %>
+        <% else %>
+          <%= link_to i, {controller: cont, action: act, page: i}, class: "active_page" %>
+        <% end %>
+      </li>
+    <%end%>
+
+    <% if en < pages %>
+      <li>
+        <%= link_to "<span aria-hidden=\"true\">&raquo;</span>".html_safe, {controller: cont, action: act, page: en + 1} %>
+      </li>
+    <%end%>
 </ul>
