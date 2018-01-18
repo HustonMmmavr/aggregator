@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   get '/films/:page', to: 'film#films_get', :as => :films_get
 
   get '/get_user_by_nick/:nick', to: 'user#get_user_by_nick', :as =>:user_by_nick
+  get '/get_user_by_nick_ui/:nick', to: 'user#get_user_by_nick_ui', :as =>:user_by_nick_ui
+
   get '/:page', to: 'film#films_get', :as => :root_films
 
 

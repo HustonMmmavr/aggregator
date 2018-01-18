@@ -81,35 +81,34 @@ class UserController < ApplicationController
 
     res = send_req(@@url_user_service, 'get_user_by_name', 'get', nick)
     if res[:status] != 200
-      @message = res[:status].to_s + " " + res[:respMsg]
-      render "user/user"
+      return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
     end
 
-    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', userId,
+    user = res[:user]
+
+    # p user
+
+    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', user["userId"],
     {:search_by => 'user_id'})
     if res[:status] != 200
-      return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+      return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
     end
 
     film_ids = res[:filmId]
-
-    res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
-    if res[:status] != 200
-      user = "error with user service"
-    else
-      user = res[:user]
-    end
 
     films = []
     film_ids.each do |id|
       res = send_req(@@url_film_service, 'get_film', 'get', id)
       if res[:status] < 500
-        films.push(res[:film])
+        if res[:film] != nil
+          films.push(res[:film])
+        end
+      else
+        return render "user/user", locals: {films: nil, message: "#{res[:status]} #{res[:respMsg]}"}
       end
     end
 
-    return render :json => {:film => film, :users_rated_this_film => users}, :status => 200
-
+    render "user/user", locals: {user: user, films: films, message: nil}
   end
 
   def get_user()
@@ -123,3 +122,11 @@ class UserController < ApplicationController
     return render :json => {:respMsg => res[:respMsg], :data => res[:user]}, :status => res[:status]
   end
 end
+
+
+    # res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
+    # if res[:status] != 200
+    #   user = "error with user service"
+    # else
+    #   user = res[:user]
+    # end

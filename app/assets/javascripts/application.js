@@ -14,8 +14,10 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require notify
 //= require validator
 //= require delete_film
+
 //= require set_rating
 
 //= require rails-ujs

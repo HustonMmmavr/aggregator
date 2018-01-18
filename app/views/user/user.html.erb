@@ -1,0 +1,51 @@
+<!-- user and related films -->
+<div>
+  <div class="martop15 col-md-10 col-xs-10 bordered col-md-offset-1">
+
+    <div> User </div>
+    <%= render partial: "shared/user", locals: {user: user} %>
+
+    <div class="col-md-12 col-xs-12 martop15 bordered">
+      <div> Films that user has rated </div>
+        <% if message != nil %>
+          <div class="col-md-4 col-md-offset-4">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong><%= message %></strong>
+            </div>
+          </div>
+        <% else %>
+          <% if films != nil %>
+            <% films.each do |film| %>
+              <div class="martop15 col-md-12 col-xs-12 bordered">
+                <div class="film-area pad0 padtop5">
+                  <div class="film-block padtopbot15">
+                    <div class="padleft0 col-xs-2 col-md-1">
+                      <%= image_tag film["filmImage"] != nil ? film["filmImage"] : "films/nothing.png" , class: "film-image padleft0"  %>
+                    </div>
+
+                    <div class="col-md-9 col-xs-9 answer-text">
+                      <%= link_to film["filmTitle"], {:controller => "film", :action => "film_get", :id => film["filmId"]}%>
+                      <div class="main-info-answer">
+                        <p> Information: <%= film["filmAbout"] != nil ? film["filmAbout"] : "Sorry, no information about film" %> </p>
+                      </div>
+
+                      <div class="other-info">
+                        <span class="answer">
+                          <%= link_to "Rating of film:", {:controller => "film", :action => "film_get", :id=> film['filmId'], :anchor => "rate#{film["filmId"]}"} %>
+                          <%= film["filmRating"] %>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <%end %>
+        <div class= "col-md-12 col-xs-12 martop15"> </div>
+      </div>
+      <div class= "col-md-12 col-xs-12 martop15"> </div>
+    </div>
+    <div class= "col-md-12 col-xs-12 marbot25"> </div>
+</div>

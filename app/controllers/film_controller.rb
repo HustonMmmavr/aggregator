@@ -171,6 +171,9 @@ class FilmController < ApplicationController
           if res[:user] != nil
             users.push(res[:user])
           end
+        else
+          @message = "Sorry, service error. Pleasy try later";
+          return render "film/film", locals: {users: nil, message: @message}
         end
       end
     end
