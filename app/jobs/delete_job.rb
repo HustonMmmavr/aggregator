@@ -5,10 +5,6 @@ class DeleteJob
   @@sender = RequestSender.new
   def perform(id)
     p 'init'
-    # $redis.flushdb
-    # p Consumer.size
-    # p
-    # p id
     fs = 'http://localhost:3005/delete_film'
     fr = 'http://localhost:8000/delete_film_rating'
 
@@ -33,7 +29,6 @@ class DeleteJob
       if data1 != nil
         id1 = data1[1]
         res = @@sender.send_delete(fs, id1)
-        # p Consumer.size
         if res[:status] == 503
           Consumer.push('fs', id1)
         end
@@ -42,7 +37,6 @@ class DeleteJob
       if data2 != nil
         id2 = data2[1]
         res = @@sender.send_post(fr, {:filmId=>id2})
-        # p Consumer.size
         if res[:status] == 503
           Consumer.push('fr', id2)
         end
@@ -51,11 +45,6 @@ class DeleteJob
 
       data1 = Consumer.pop('fs')
       data2 = Consumer.pop('fr')
-      # id = Consumer.pop('fr')
-      # res = send_req('localhost:3005', fr[:server_method], fr[:method], fr[:data])
-      # if res[:status] == 503
-      #   Consumer.push('fr', id)
-      # end
     end
   end
 end

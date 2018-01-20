@@ -1,4 +1,10 @@
 todo
+5 lab
+1) login
+2) oauth
+3)
+
+
 4 la
 3) films rated by user (user ans films) (we can choose film) p - refactor 2 in process
 8) delete film - button in one film (ajax) - ind in django // think about post
@@ -13,6 +19,158 @@ todo
 7) set rating - in one film with users (ajax) - find in django +
 5) create film +
 4) signup +
+
+
+
+# def send_req(server_addr, server_method, method, params = nil, query_params = nil)
+#   begin
+#     url_str = 'http://' + server_addr + '/' + server_method
+#     if method == "post"
+#       uri = URI::parse(url_str)
+#       req = Net::HTTP::Post.new(uri)
+#       req.body = params.to_json
+#       req.content_type = "application/json"
+#       response =  Net::HTTP.start(uri.hostname, uri.port) do |http|
+#         http.request(req)
+#       end
+#     end
+#     if method == "get"
+#       if params
+#         params.each do |param|
+#           url_str += "/" + param.to_s
+#         end
+#       end
+#
+#       uri = URI::parse(url_str)
+#       if query_params != nil
+#         uri.query = URI::encode_www_form(query_params)
+#       end
+#       response = Net::HTTP.get_response(uri)
+#     end
+#     if method == "delete"
+#       uri = URI::parse(url_str + "/" + params.to_s)
+#       req = Net::HTTP::Delete.new(uri.path())
+#       response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+#         http.request(req)
+#       end
+#     end
+#     hash = JSON.load(response.body)
+#     hash['status'] = response.code.to_i
+#     p hash
+#     hash.keys.each do |key|
+#       hash[(key.to_sym rescue key) || key] = hash.delete(key)
+#     end
+#     return hash
+#   rescue => err
+#     # p err
+#     return {:respMsg => "Server not fount", :status => 503}
+#   end
+# end
+
+
+
+
+# url = URI.parse(server_addr + server_method)
+# req = Net::HTTP::Get.new(url.to_s)
+
+# New::Http::Post.new()
+
+# http = Net::HTTP.new(url.host, url.port)
+# http.use_ssl = (url.scheme == "https")
+# request = Net::HTTP::Get.new(url.to_s)
+# http = Net::HTTP.new(url.host, url.port)
+# response = http.request(request)
+
+
+# def fill_req(method, req, params, query_params)
+#   if method == "post"
+#     uri = URI.parse(url_str + params)
+#     request = Net::HTTP::Get.new(url.to_s)
+#     http = Net::HTTP.new(url.host, url.port)
+#     response = http.request(request)
+#   end
+#   if method == "get"
+#     url = URI.parse(url_str + params)
+#     request = Net::HTTP::Get.new(url.to_s)
+#     http = Net::HTTP.new(url.host, url.port)
+#     response = http.request(request)
+#   end
+#   if method == "delete"
+#     response = nil
+#   end
+# end
+
+
+# res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
+# if res[:status] != 200
+#   user = "error with user service"
+# else
+#   user = res[:user]
+# end
+
+#
+# def delete_film()
+#   id = params[:id]
+#
+#   #TODO check params
+#   check_film_id = is_parameter_valid 'id', id, @@int_regexp
+#   if check_film_id != true
+#     return render :json => {:respMsg => check_film_id}, :status => 400
+#   end
+#
+#   # fr = {:host => @@url_film_rating_service, :server_method => 'delete_film_rating',
+#       # :method => 'post', :data => {:filmId => id})
+#
+#   # fs = {:host => @@url_film_service, :server_method => 'delete_film',
+#     # :method => 'delete', :data => {:id=> id})}
+#
+#   DeleteJob.perform_async(id)
+#
+#   # Consumer.push('fs', id)
+#   # Consumer.push('fr', id)
+#   # DeleteJob.delete('fr', host, @@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+#   # DeleteJob.delete ('fs', @@url_film_service, 'delete_film', 'delete', {:id=> id})
+#   # params_to_fr = {:filmId => id}
+#   # res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
+#   #
+#   # if res[:status] == 503
+#   #   p 'a'
+#   #   ProducerJob.publish("fr", params_to_fr)
+#   #   #return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+#   # end
+#   #
+#   #
+#   # params_to_fs = {:id => id}
+#   # res = send_req(@@url_film_service, 'delete_film', 'delete', id)
+#   # if res[:status] == 503
+#   #   ProducerJob.publish("fs", params_to_fs)
+#   #   # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+#   # end
+#
+#   return render :json => {:respMsg => "Ok"}, :status => 200
+#   # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
+# end
+
+# films_arr = Array.new
+# res[:films].each do |data|
+#   p data
+#   f = Film.new(data)
+#   films_arr.push(f)
+# end
+
+# @films = res[:films]
+# p @films
+
+
+# films_arr = Array.new
+# res[:films].each do |data|
+#   p data
+#   f = Film.new(data)
+#   films_arr.push(f)
+# end
+
+# @films = res[:films]
+# p @films
 
 
 

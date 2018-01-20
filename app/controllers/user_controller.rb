@@ -85,9 +85,6 @@ class UserController < ApplicationController
     end
 
     user = res[:user]
-
-    # p user
-
     res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', user["userId"],
     {:search_by => 'user_id'})
     if res[:status] != 200
@@ -122,11 +119,3 @@ class UserController < ApplicationController
     return render :json => {:respMsg => res[:respMsg], :data => res[:user]}, :status => res[:status]
   end
 end
-
-
-    # res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
-    # if res[:status] != 200
-    #   user = "error with user service"
-    # else
-    #   user = res[:user]
-    # end
