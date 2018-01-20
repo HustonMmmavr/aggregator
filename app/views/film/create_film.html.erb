@@ -1,5 +1,5 @@
 <% provide(:title, 'Add film') %>
-<h1>Add film</h1>
+<h1 class="col-md-12 col-xs-12">Add film</h1>
 
 <div class="row">
   <% if @err != nil %>
@@ -60,7 +60,7 @@
     </div>
 
       <div class="col-md-12 col-xs-12 pad0 upload-img-div">
-        <%= image_tag "noavatar.jpg", id: "img_signup_settings", class: "upload-img" %>
+        <%= image_tag "films/nothing.png", id: "img_signup_settings", class: "upload-img" %>
       </div>
 
       <div class="form-group  field_input col-md-12">
@@ -74,7 +74,7 @@
         <div class="help-block with-errors"> </div>
       </div>
 
-      <%= f.submit "Create my account", class: "btn btn primary col-md-12" %>
+      <%= f.submit "Add new film", class: "btn btn primary col-md-12" %>
    </div>
     <% end %>
   </div>
