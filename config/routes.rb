@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get '/add_film', to: 'film#add_film_get', :as => :add_film_get
   post '/add_film', to: 'film#add_film_post', :as => :add_film_post
   get '/film/:id', to: 'film#film_get', :as => :film_get
-  get '/films/:page', to: 'film#films_get', :as => :films_get
+  get '/films/:page', to: 'film#films_get', :as => :films_get_p
 
   get '/get_user_by_nick/:nick', to: 'user#get_user_by_nick', :as =>:user_by_nick
   get '/get_user_by_nick_ui/:nick', to: 'user#get_user_by_nick_ui', :as =>:user_by_nick_ui

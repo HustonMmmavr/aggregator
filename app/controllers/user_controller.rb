@@ -45,7 +45,7 @@ class UserController < ApplicationController
     end
 
     if @err.size == 0
-      #redirect "/"
+      redirect_to "/"
     end
 
     return render "user/signup"

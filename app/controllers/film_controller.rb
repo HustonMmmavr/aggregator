@@ -122,8 +122,10 @@ class FilmController < ApplicationController
       end
     end
 
+    p res
+
     if @err.size == 0
-      #redirect "/"
+      return redirect_to film_get_url(:id => res[:data]) #{}"film/films_get"
     end
 
     return render "film/create_film"
