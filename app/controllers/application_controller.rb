@@ -20,6 +20,11 @@ class ApplicationController < ActionController::Base
 
   @@page = "1"
 
+  # data -
+  def get_oauth_token(*data)
+
+  end
+
   def is_parameter_valid(param_name, param, regexp)
     if param == nil || param == ""
         return param_name + " is Empty"

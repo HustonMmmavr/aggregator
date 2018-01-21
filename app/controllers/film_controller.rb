@@ -1,5 +1,3 @@
-# require_dependency "#{Rails.root.join('app', 'services', 'publisher.rb')}"
-
 class FilmController < ApplicationController
   @@films_on_page = 7
 

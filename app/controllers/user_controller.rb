@@ -2,6 +2,19 @@ class UserController < ApplicationController
   # todo check for valid
 
   @@hash_form = {:userName => "Name"}
+
+  def login()
+
+  end
+
+  def login_get()
+
+  end
+
+  def login_post()
+
+  end
+
   def signup()
     user = params[:user]
     @@important_user_params.each do |key|
