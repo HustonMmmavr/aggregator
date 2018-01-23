@@ -16,9 +16,8 @@ Rails.application.routes.draw do
     get '/get_user/:id', to: 'user#get_user', :as => :get_user
     get '/get_user_by_nick/:nick', to: 'user#get_user_by_nick', :as =>:user_by_nick
 
-    post '/login', to: 'user#login', :as => :api_login
+    get '/login', to: 'user#login', :as => :api_login
   end
-
 
   # ui
   get '/signup', to: 'user#signup_get', :as => :signup_ui
@@ -33,7 +32,4 @@ Rails.application.routes.draw do
 
   get '/', to: 'film#films_get', :as => :root
   get '/:page', to: 'film#films_get', :as => :root_films
-
-
-
 end

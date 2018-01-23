@@ -1,0 +1,2 @@
+class ApplicationKey < ApplicationRecord
+end

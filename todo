@@ -1,216 +1,55 @@
 todo
-5 lab
-1) login
-2) oauth
-3)
+I) oauth
+  1) All api is private
+  2) ui private - add film, set rating, delete film
+  3)
+II) MS
+  1) add table to aggregator (appName, appKeyForUser, appKeyForFilm, ...) +
+  2) tables to services (appName, appKey, life) +
+  3) aggregator function, that updates keys
+  4)
+###########################
+oauth
 
 
-4 la
-3) films rated by user (user ans films) (we can choose film) p - refactor 2 in process
-8) delete film - button in one film (ajax) - ind in django // think about post
+  # if AccessApplication.exists?(:appSecret => token)
+    # p 'here'
+    # data = AccessApplication.where(:appSecret => token).first
 
+    # p now
 
-5 l
-6) login -
+Требования
 
+1. Все операции между сервером и клиентом разделить на публичные и закры-тые.
+ В REST API для выполнения закрытых операций использовать токен, полу-ченный с помощью OAuth 2 (code flow).
 
-2) users related to film (up - film, users) +
-1) all films and pagination (only pagination) +
-7) set rating - in one film with users (ajax) - find in django +
-5) create film +
-4) signup +
+2. Для пользовательского интерфейса реализовать login/password авторизацию, в
+результате на успешную авторизацию выдавать токен, идентифицирующий ав-торизованного пользователя.
+Все закрытые операции должны выполняться с помощью этого токена. Если для UI используется SPA и вся
+ логика работы с сервером реализуется с помощью JavaScript, то токен передавать в заголовке Authorization:
+ Bearer <token>. Если используется server rendering и для отправки формы выполняется синхронный submit, то токен
+  можно хранить в cookies и пе-редавать через заголовок Cookie: <token-name>=<token>.
 
+3. Регистрацию нового пользователя делать не обязательно,
+достаточно создать несколько тестовых пользователей. (+)
 
+4. Пароль в базе хранить в хэшированном виде. (+)
 
-# def send_req(server_addr, server_method, method, params = nil, query_params = nil)
-#   begin
-#     url_str = 'http://' + server_addr + '/' + server_method
-#     if method == "post"
-#       uri = URI::parse(url_str)
-#       req = Net::HTTP::Post.new(uri)
-#       req.body = params.to_json
-#       req.content_type = "application/json"
-#       response =  Net::HTTP.start(uri.hostname, uri.port) do |http|
-#         http.request(req)
-#       end
-#     end
-#     if method == "get"
-#       if params
-#         params.each do |param|
-#           url_str += "/" + param.to_s
-#         end
-#       end
-#
-#       uri = URI::parse(url_str)
-#       if query_params != nil
-#         uri.query = URI::encode_www_form(query_params)
-#       end
-#       response = Net::HTTP.get_response(uri)
-#     end
-#     if method == "delete"
-#       uri = URI::parse(url_str + "/" + params.to_s)
-#       req = Net::HTTP::Delete.new(uri.path())
-#       response = Net::HTTP.start(uri.hostname, uri.port) do |http|
-#         http.request(req)
-#       end
-#     end
-#     hash = JSON.load(response.body)
-#     hash['status'] = response.code.to_i
-#     p hash
-#     hash.keys.each do |key|
-#       hash[(key.to_sym rescue key) || key] = hash.delete(key)
-#     end
-#     return hash
-#   rescue => err
-#     # p err
-#     return {:respMsg => "Server not fount", :status => 503}
-#   end
-# end
+5. Выделить отдельный сервис, отвечающий за авторизацию.
+Все запросы от UI и API на проверку токенов делегируютя ему через Aggregation Service. (+)
 
+6. Выданные токены хранить в некотором хранилище
+(можно в БД, redis, hazelcast и т.п.). На сервере не использовать встроенную сессию. (?)
 
+7. Для взаимодействия между сервисами использовать токен,
+каждый сервис имеет <appnId>/<appSecret>, по этим данным выдается токен с
+некоторым вре-менем жизни. По окончанию времени жизни, токен требуется перезапросить.
+Авторизационные данные для доступа к каждому сервису знают сами сервисы, эти запросы
+не делегируются на Session Service. (in process)
+8. Все токены должны иметь время жизни.
 
+9. Для токена, полученного с помощью OAuth2, реализовать refresh токен.
 
-# url = URI.parse(server_addr + server_method)
-# req = Net::HTTP::Get.new(url.to_s)
+10. Токен, используемый в пользовательском интерфейсе, должен инвалидиро-ваться после 30 минут бездействия.
 
-# New::Http::Post.new()
-
-# http = Net::HTTP.new(url.host, url.port)
-# http.use_ssl = (url.scheme == "https")
-# request = Net::HTTP::Get.new(url.to_s)
-# http = Net::HTTP.new(url.host, url.port)
-# response = http.request(request)
-
-
-# def fill_req(method, req, params, query_params)
-#   if method == "post"
-#     uri = URI.parse(url_str + params)
-#     request = Net::HTTP::Get.new(url.to_s)
-#     http = Net::HTTP.new(url.host, url.port)
-#     response = http.request(request)
-#   end
-#   if method == "get"
-#     url = URI.parse(url_str + params)
-#     request = Net::HTTP::Get.new(url.to_s)
-#     http = Net::HTTP.new(url.host, url.port)
-#     response = http.request(request)
-#   end
-#   if method == "delete"
-#     response = nil
-#   end
-# end
-
-
-# res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
-# if res[:status] != 200
-#   user = "error with user service"
-# else
-#   user = res[:user]
-# end
-
-#
-# def delete_film()
-#   id = params[:id]
-#
-#   #TODO check params
-#   check_film_id = is_parameter_valid 'id', id, @@int_regexp
-#   if check_film_id != true
-#     return render :json => {:respMsg => check_film_id}, :status => 400
-#   end
-#
-#   # fr = {:host => @@url_film_rating_service, :server_method => 'delete_film_rating',
-#       # :method => 'post', :data => {:filmId => id})
-#
-#   # fs = {:host => @@url_film_service, :server_method => 'delete_film',
-#     # :method => 'delete', :data => {:id=> id})}
-#
-#   DeleteJob.perform_async(id)
-#
-#   # Consumer.push('fs', id)
-#   # Consumer.push('fr', id)
-#   # DeleteJob.delete('fr', host, @@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
-#   # DeleteJob.delete ('fs', @@url_film_service, 'delete_film', 'delete', {:id=> id})
-#   # params_to_fr = {:filmId => id}
-#   # res = send_req(@@url_film_rating_service, 'delete_film_rating', 'post', {:filmId => id})
-#   #
-#   # if res[:status] == 503
-#   #   p 'a'
-#   #   ProducerJob.publish("fr", params_to_fr)
-#   #   #return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-#   # end
-#   #
-#   #
-#   # params_to_fs = {:id => id}
-#   # res = send_req(@@url_film_service, 'delete_film', 'delete', id)
-#   # if res[:status] == 503
-#   #   ProducerJob.publish("fs", params_to_fs)
-#   #   # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-#   # end
-#
-#   return render :json => {:respMsg => "Ok"}, :status => 200
-#   # return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
-# end
-
-# films_arr = Array.new
-# res[:films].each do |data|
-#   p data
-#   f = Film.new(data)
-#   films_arr.push(f)
-# end
-
-# @films = res[:films]
-# p @films
-
-
-# films_arr = Array.new
-# res[:films].each do |data|
-#   p data
-#   f = Film.new(data)
-#   films_arr.push(f)
-# end
-
-# @films = res[:films]
-# p @films
-
-
-
-
-
-# p @err
-# @@important_user_params.each do |key|
-#   if key == "userEmail"
-#     check = is_parameter_valid key, @user[key], @@email_regexp
-#   else
-#     check = is_parameter_valid key, @user[key], nil
-#   end
-#   if check != true
-#     @err.push(check)
-#   end
-# end
-#
-#
-# end
-#
-# # if @user.errors.count == 0
-# #   p @user
-# # end
-# #
-# # res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
-# #
-# # if res[:status] > 200
-# #   if res[:status] == 409
-# #     @err.push(res[:data])
-# #   else
-# #     p res[:data]
-# #     @err.push(res[:data])
-# #     # p "error"
-# #     # @user.errors[:serverError] = "Error with server! Try later"
-# #   end
-# # end
-# # render "films/films/1"
-# end
-#
-# # def login()
-# #   nick = params[:userName]
-# #   pasw = params[:userPassword]
-# # end
+11. Подготовить пример получения/обновления OAuth 2 токена, выполнения запро-сов к REST API.

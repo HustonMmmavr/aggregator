@@ -14,6 +14,13 @@
   <%= f.password_field :userPassword, class: "col md 9" %>
 </div>
 
+
+  # if AccessApplication.exists?(:appSecret => token)
+    # p 'here'
+    # data = AccessApplication.where(:appSecret => token).first
+
+    # p now
+
 <div class="form_input">
   <%= f.label :repeatPassword, "Confirmation", class:  "col md 3" %>
   <%= f.password_field :repeatPassword %>

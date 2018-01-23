@@ -1,18 +1,16 @@
 class UserController < ApplicationController
-  # todo check for valid
-
-  @@hash_form = {:userName => "Name"}
-
   def login()
-
+   return redirect_to  'http://0.0.0.0:3000/login?redirect_url=http://0.0.0.0:7000/'
   end
 
   def login_get()
-
+    @user = User.new
+    @err = Array.new
+    render "user/signin"
   end
 
   def login_post()
-
+    # too
   end
 
   def signup()
@@ -24,12 +22,11 @@ class UserController < ApplicationController
           check = is_parameter_valid key, user[key], nil
         end
         if check != true
-          # logger.debug(key + "is invalid")
           return render :json => {:respMsg => check}, :status => 400
         end
-      end
+    end
+
     res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
-    # render "user/signup"
     return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
   end
 

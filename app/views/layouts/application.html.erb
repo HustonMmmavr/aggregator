@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav navbar-right col-md-2">
           <li class="nav-item"><%= link_to "Add film",   {:controller => "film", :action => "add_film_get"} , :class => "nav-link"%></li>
           <!-- <li><%= link_to "H",   {:controller => "film", :action => "films", :page => 1} %></li> -->
-          <li><%= link_to "Log in", '#' %></li>
+          <li><%= link_to "Log in", :login_get %></li>
           <li><%= link_to "Sign up", :signup_ui %> </li>
         </ul>
       </nav>
