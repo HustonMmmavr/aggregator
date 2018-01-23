@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
 
   @@appName = 'aggregator'
   @@page = "1"
+  @@appSecret = 'secret'
 
   # data -
   def get_oauth_token(*data)
@@ -65,20 +66,21 @@ class ApplicationController < ActionController::Base
   def update_token(server, old)
     p 'update_tok'
     p old
+    headers = {method: 'Authorization', data: "Bearer #{@@appName}:#{@@appSecret}"}#{:appId => @@appName, :appSecret => @@appSecret}
     rec = ApplicationKey.where(:appName => @@appName).first
     if server == @@url_film_service
-      res = @@sender.send_post('http://' + @@url_film_service  + "get_token", nil, old)
+      res = @@sender.send_post('http://' + @@url_film_service  + "get_token", nil, headers)
       p res
       token = res[:token]
       rec.update(:keyForFilm => token)
     end
     if server == @@url_user_service
-      res = @@sender.send_post('http://' + @@url_user_service  + "get_token", nil, old)
+      res = @@sender.send_post('http://' + @@url_user_service  + "get_token", nil, headers)
       token = res[:token]
       rec.update(:keyForUser => token)
     end
     if server == @@url_film_rating_service
-      res = @@sender.send_post('http://' + @@url_film_rating_service  + "get_token", nil,  old)
+      res = @@sender.send_post('http://' + @@url_film_rating_service  + "get_token", nil,  headers)
       token = res[:token]
       rec.update(:keyForRating => token)
     end
@@ -88,7 +90,8 @@ class ApplicationController < ActionController::Base
   def get_headers(server, func, old = nil)
     # p 'func'
     token = self.send func, server, old
-    headers = {:appId => @@appName, :appSecret => token}
+    headers = {method: 'Authorization', data: "Token #{token}"}
+    # headers = {:appId => @@appName, :appSecret => 'secret'}
     return headers
   end
 
@@ -104,8 +107,8 @@ class ApplicationController < ActionController::Base
           params = arr
         end
       end
-      res = @@sender.send_get(path, params, query_params, headers)
 
+      res = @@sender.send_get(path, params, query_params, headers)
       if res[:status] == 401
         new_headers = get_headers(server_addr, :update_token, headers)
         p headers
@@ -127,37 +130,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
-  def get_film_token()
-    rec = ApplicationKey.where(:appName => @@appName).first
-    p rec
-    if token = rec['keyForFilm'] == nil
-      token = 'epmty'
-    end
-    p 'token'
-    p token
-    return token
-  end
-
-  def get_rating_token()
-    rec = ApplicationKey.where(:appName => @@appName).first
-    token = rec[:keyForRating]
-    if token = rec['keyForFilm'] == nil
-      token = 'epmty'
-    end
-    return token
-  end
-
-  def get_user_token()
-    rec = ApplicationKey.where(:appName => @@appName).first
-    token = rec[:keyForUser]
-    p rec
-    if token = rec['keyForFilm'] == nil
-      token = 'epmty'
-    end
-    return token
-  end
-
   def is_parameter_valid(param_name, param, regexp)
     if param == nil || param == ""
         return param_name + " is Empty"
@@ -170,6 +142,38 @@ class ApplicationController < ActionController::Base
     true
   end
 end
+
+
+#
+# def get_film_token()
+#   rec = ApplicationKey.where(:appName => @@appName).first
+#   p rec
+#   if token = rec['keyForFilm'] == nil
+#     token = 'epmty'
+#   end
+#   p 'token'
+#   p token
+#   return token
+# end
+#
+# def get_rating_token()
+#   rec = ApplicationKey.where(:appName => @@appName).first
+#   token = rec[:keyForRating]
+#   if token = rec['keyForFilm'] == nil
+#     token = 'epmty'
+#   end
+#   return token
+# end
+#
+# def get_user_token()
+#   rec = ApplicationKey.where(:appName => @@appName).first
+#   token = rec[:keyForUser]
+#   p rec
+#   if token = rec['keyForFilm'] == nil
+#     token = 'epmty'
+#   end
+#   return token
+# end
 
 
 # def update_film_token()

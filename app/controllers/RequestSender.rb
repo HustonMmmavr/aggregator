@@ -23,8 +23,9 @@ class RequestSender
         req.body = params.to_json
       end
 
+      p headers
       if headers
-        req['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
+        req[headers[:method]] = headers[:data]
       end
 
       req.content_type = "application/json"
@@ -39,9 +40,6 @@ class RequestSender
   end
 
   def send_get(path, params = nil, query_params = nil, headers = nil)
-    # p 'sfkjsjbsjdfbjhsfhebjhesfbehj'
-    # p query_params
-
     begin
       if params
         params.each do |param|
@@ -52,9 +50,24 @@ class RequestSender
       uri = URI::parse(path)
       request = Net::HTTP::Get.new(uri.request_uri)
       http = Net::HTTP.new(uri.host, uri.port).start
+
+      p headers
       if headers
-        request['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
+        request[headers[:method]] = headers[:data]
       end
+      # if headers
+      #   if headers[:token] != nil
+      #     request['Authorization'] = "Token #{headers[:token]}"
+      #   else
+      #     request['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
+      #   end
+      # end
+      # if headers != nil
+      #   req['Authorization'] = "Token #{headers[:token]}"
+      # else
+      #   p 'here'
+      #   req['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
+      #
 
       if query_params != nil
         uri.query = URI::encode_www_form(query_params)

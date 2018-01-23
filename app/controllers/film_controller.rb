@@ -52,25 +52,23 @@ class FilmController < ApplicationController
     arr.each do |key|
       check = is_parameter_valid key, params[key], @@int_regexp
       if check != true
-        return render "errors/error", locals: {message: check}#:json => {:respMsg => res[:respMsg]}
+        return render "errors/error", locals: {message: check}
       end
     end
 
     page = Integer(params[:page])
     count_on_page = Integer(params[:count])
     @count_on_page = count_on_page
-    # p @count
-    # token = get_film_token
     res = send_req_with_auth(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page])
 
     if res[:status] != 200
-      return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}#:json => {:respMsg => res[:respMsg]}, :status => res[:status]
+      return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
     end
 
     @films = res[:films]
     pages, start_, end_ = paginate(page)
 
-    render "film/films_get", locals: {st: start_, en: end_, cur: page, :pages => pages, con: "film", act: "films_get"}#, locals: {films: films_arr}#res[:films]}#:json => {:respMsg => "Ok", :data => res[:films]}, :status => 200
+    render "film/films_get", locals: {st: start_, en: end_, cur: page, :pages => pages, con: "film", act: "films_get"}
   end
 
   def add_film()
@@ -102,15 +100,8 @@ class FilmController < ApplicationController
     p @film.filmImage
 
     if @err.size == 0
-      token = get_film_token
       hash = @film.to_hash
-      hash[:appSecret] = token
-      res = send_req(@@url_film_service, 'add_film', 'post', hash)#@film.to_hash)
-      if res[:status] == 401
-        token = update_film_token
-        hash[:appSecret] = token
-        res = send_req(@@url_film_service, 'add_film', 'post', hash)#@film.to_hash)
-      end
+      res = send_req_with_auth(@@url_film_service, 'add_film', 'post', hash)#@film.to_hash)
       if res[:status] < 300
         image = @film.filmImage
         if image != nil
@@ -127,8 +118,6 @@ class FilmController < ApplicationController
         end
       end
     end
-
-    p res
 
     if @err.size == 0
       return redirect_to film_get_url(:id => res[:data]) #{}"film/films_get"
@@ -160,6 +149,7 @@ class FilmController < ApplicationController
 
     @film = res[:film]
 
+    ################################################
     res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', @film['filmId'],
     {:search_by => 'film_id'})
 
@@ -216,7 +206,7 @@ class FilmController < ApplicationController
 
   def delete_film()
     id = params[:id]
-
+    ##########################################################
     check_film_id = is_parameter_valid 'id', id, @@int_regexp
     if check_film_id != true
       return render :json => {:respMsg => check_film_id}, :status => 400
@@ -226,53 +216,3 @@ class FilmController < ApplicationController
     return render :json => {:respMsg => "Ok"}, :status => 200
   end
 end
-
-
-# def update_film_token()
-#   p 'sefse;krfersjgjren'
-#   res = send_req(@@url_film_service, 'get_token', 'post', {:appId=> @@appName})
-#   # p 'sgergergr'
-#   p res
-#   token = res[:token]
-#   rec = ApplicationKey.where(:appName => @@appName).first
-#   rec.update(:keyForFilm => token)
-#   token
-# end
-
-
-# token = get_film_token
-# hash[:appSecret] = token
-# res = send_req(@@url_film_service, 'add_film', 'post', hash)
-# if res[:status] == 401
-  # token = update_film_token
-  # hash[:appSecret] = token
-  # res = send_req(@@srl_film_service, 'add_film', post, hash)
-# end
-
-# token = get_film_token
-# res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page], {:appSecret => token})
-#
-# if res[:status] == 401
-#   token = update_film_token()
-#   res = send_req(@@url_film_service, 'get_films', 'get', [page * count_on_page, count_on_page], {:appSecret => token})
-# end
-#
-# if res[:status] == 401
-#   token = update_film_token
-#   res = send_req(@@url_film_service, 'get_film', 'get', id, {:appSecret => token})
-# end
-
-# if res[:status] == 401
-  # token = update_film_token
-  # res = send_req(@@url_film_service, 'get_films_count', 'get', nil, {:appSecret => token})
-# end
-
-
-
-
-# if res[:status] == 401
-#   token = update_film_token
-#   res = send_req(@@url_film_service, 'get_films', 'get', [page*count_on_page, count_on_page], {:appSecret => token})
-# end
-# p '-----------------------------------------'
-# p res
