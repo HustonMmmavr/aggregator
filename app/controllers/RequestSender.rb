@@ -34,8 +34,7 @@ class RequestSender
       end
       return response_to_hash(response)
     rescue => err
-      # p err
-      # return @@server_not_avaliable
+      return @@server_not_avaliable
     end
   end
 
@@ -55,30 +54,14 @@ class RequestSender
       if headers
         request[headers[:method]] = headers[:data]
       end
-      # if headers
-      #   if headers[:token] != nil
-      #     request['Authorization'] = "Token #{headers[:token]}"
-      #   else
-      #     request['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
-      #   end
-      # end
-      # if headers != nil
-      #   req['Authorization'] = "Token #{headers[:token]}"
-      # else
-      #   p 'here'
-      #   req['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
-      #
 
       if query_params != nil
         uri.query = URI::encode_www_form(query_params)
       end
-      # p uri.query
       response = http.request(request)
-      # Net::HTTP.get_response(uri)
-      # p response
       return response_to_hash(response)
     rescue => err
-      p err
+      # p err
       return @@server_not_avaliable
     end
   end
@@ -87,15 +70,17 @@ class RequestSender
     begin
       uri = URI::parse(path + "/" + params.to_s)
       req = Net::HTTP::Delete.new(uri.path())
+      p "delete"
+      p headers
       if headers
-        req['Authorization'] = "Bearer #{headers[:appId]}:#{headers[:appSecret]}"
+        req[headers[:method]] = headers[:data]
       end
       response = Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(req)
       end
       return response_to_hash(response)
     rescue => err
-      p err
+      # p err
       return @@server_not_avaliable
     end
   end

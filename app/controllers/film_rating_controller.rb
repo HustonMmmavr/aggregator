@@ -4,6 +4,7 @@ class FilmRatingController < ApplicationController
   @@film_rating_params = ['userId', 'filmId', 'filmRating']
   @@page = "1"
 
+
   def set_rating()
     filmId = params[:filmId]
     filmRating = params[:filmRating]
@@ -23,7 +24,7 @@ class FilmRatingController < ApplicationController
     # request to film_rating if its not availible then we end work
     params_to_fr = {:userId => params[:userId], :filmId => params[:filmId],
       :filmRating => params[:filmRating]}
-    res = send_req(@@url_film_rating_service, 'set_rating','post',params_to_fr)
+    res = send_req_with_auth(@@url_film_rating_service, 'set_rating','post',params_to_fr)
     if res[:status] != 200
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
@@ -31,14 +32,14 @@ class FilmRatingController < ApplicationController
     # trying to save rating to film, if its not availible then rollback
     params_to_fs = {:filmId => params[:filmId].to_s, :filmRating => res[:filmAvgRating].to_s}
     avgRating = res[:filmAvgRating]
-    res = send_req(@@url_film_service, 'update_film', 'post', params_to_fs )
+    res = send_req_with_auth(@@url_film_service, 'update_film', 'post', params_to_fs )
     if res[:status] != 200
       #if rating updated, then change for old, else delete rating
       if fr_res[:isUpdated] == true
         params_to_fr[:filmRating] = fr_res[:oldData]
-        send_req(@@url_film_rating_service, 'set_rating', 'post', params_to_fr)
+        send_req_with_auth(@@url_film_rating_service, 'set_rating', 'post', params_to_fr)
       else
-        send_req(@@url_film_rating_service, 'delete_rating', 'post',params_to_fr)
+        send_req_with_auth(@@url_film_rating_service, 'delete_rating', 'post',params_to_fr)
       end
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
     end
@@ -52,8 +53,8 @@ class FilmRatingController < ApplicationController
       return render :json => {:respMsg => 'film id is inavlid'}, :status => 400
     end
 
-    p filmId
-    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', filmId,
+    # p filmId
+    res = send_req_with_auth(@@url_film_rating_service, 'get_linked_objects', 'get', filmId,
     {:search_by => 'film_id'})
 
     if res[:status] != 200
@@ -62,7 +63,7 @@ class FilmRatingController < ApplicationController
 
     user_ids = res[:userId]
     p user_ids
-    res = send_req(@@url_film_service, 'get_film', 'get', filmId)
+    res = send_req_with_auth(@@url_film_service, 'get_film', 'get', filmId)
     p res
     if res[:status] != 200
       film = "Error with film service"

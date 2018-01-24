@@ -14,6 +14,40 @@
   <%= f.password_field :userPassword, class: "col md 9" %>
 </div>
 
+#
+# def create_user()
+#   logger.debug "create_user #{params}"
+#   @@important_params.each do |key|
+#     if key == "userEmail"
+#       check = is_parameter_valid key, params[key], @@email_regexp
+#     else
+#       check = is_parameter_valid key, params[key]
+#     end
+#     if check != true
+#       # logger.debug(key + "is invalid")
+#       return render :json => {:respMsg => check}, :status => 400
+#     end
+#   end
+
+
+#
+#   @user = User.new(params_to_db_params(params))
+#   if @user.valid?
+#   begin
+#     @user.save()
+#     return render :json => {:respMsg => "Ok", :data => @user.id}, :status => 201
+#   rescue
+#       responseMessage = ResponseMessage.new("Database error")
+#       return render :json => responseMessage, :status => 500
+#   end
+#   else
+#     if @user.errors.messages[:name].size > 0
+#       return render :json => {:respMsg => "userName already occupied"}, status: 409
+#     else
+#       return render :json => {:respMsg => "userEmail already exist"}, status: 409
+#     end
+#   end
+# end
 
   # if AccessApplication.exists?(:appSecret => token)
     # p 'here'

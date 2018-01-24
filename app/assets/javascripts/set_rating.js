@@ -8,7 +8,7 @@ function setRating(id, val) {
     //   csrftoken = Cookies.get('csrftoken'); // read from input csrftoken
     $.ajax({
         type: 'POST',
-        url: '/set_rating',
+        url: '/api/set_rating',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         // headers: { "X-CSRFToken": csrftoken},

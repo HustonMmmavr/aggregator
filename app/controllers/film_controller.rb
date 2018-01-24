@@ -2,7 +2,7 @@ class FilmController < ApplicationController
   @@films_on_page = 7
 
   def paginate(current, offset = 2)
-    token = get_film_token
+    # token = get_film_token
     res = send_req_with_auth(@@url_film_service, 'get_films_count', 'get', nil)
 
     count = res[:filmsCount]
@@ -140,9 +140,7 @@ class FilmController < ApplicationController
       return render "errors/error", locals: {message: check_film_id}#:json => {:respMsg => check_film_id}, :status => 400
     end
 
-    token = get_film_token
     res = send_req_with_auth(@@url_film_service, 'get_film', 'get', id)
-
     if res[:status] != 200
       return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
     end
@@ -150,7 +148,7 @@ class FilmController < ApplicationController
     @film = res[:film]
 
     ################################################
-    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', @film['filmId'],
+    res = send_req_with_auth(@@url_film_rating_service, 'get_linked_objects', 'get', @film['filmId'],
     {:search_by => 'film_id'})
 
     if res[:status] == 503
@@ -206,6 +204,7 @@ class FilmController < ApplicationController
 
   def delete_film()
     id = params[:id]
+    p id
     ##########################################################
     check_film_id = is_parameter_valid 'id', id, @@int_regexp
     if check_film_id != true
