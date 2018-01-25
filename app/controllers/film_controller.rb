@@ -161,7 +161,7 @@ class FilmController < ApplicationController
     if user_ids != nil
       user_ids.each do |id|
         p id
-        res = send_req(@@url_user_service, 'get_user_by_id', 'get', id)
+        res = send_req_with_auth(@@url_user_service, 'get_user_by_id', 'get', id)
         p res
         if res[:status] < 500
           p res[:user]

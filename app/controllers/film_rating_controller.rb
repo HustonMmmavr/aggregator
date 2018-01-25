@@ -74,7 +74,7 @@ class FilmRatingController < ApplicationController
     users = []
     user_ids.each do |id|
       p id
-      res = send_req(@@url_user_service, 'get_user_by_id', 'get', id)
+      res = send_req_with_auth(@@url_user_service, 'get_user_by_id', 'get', id)
       p res
       if res[:status] < 500
         users.push(res[:user])
@@ -92,7 +92,7 @@ class FilmRatingController < ApplicationController
       return render :json => {:respMsg => 'uesr id is invalid'}, :status => 400
     end
 
-    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', userId,
+    res = send_req_with_auth(@@url_film_rating_service, 'get_linked_objects', 'get', userId,
     {:search_by => 'user_id'})
     if res[:status] != 200
       return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
@@ -100,7 +100,7 @@ class FilmRatingController < ApplicationController
 
     film_ids = res[:filmId]
 
-    res = send_req(@@url_user_service, 'get_user_by_id', 'get', userId)
+    res = send_req_with_auth(@@url_user_service, 'get_user_by_id', 'get', userId)
     if res[:status] != 200
       user = "error with user service"
     else
@@ -109,7 +109,7 @@ class FilmRatingController < ApplicationController
 
     films = []
     film_ids.each do |id|
-      res = send_req(@@url_film_service, 'get_film', 'get', id)
+      res = send_req_with_auth(@@url_film_service, 'get_film', 'get', id)
       if res[:status] < 500
         films.push(res[:film])
       end
