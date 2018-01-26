@@ -9,6 +9,8 @@ II) MS
   3) aggregator function, that updates keys
   4)
 ###########################
+
+oauth - add_film, delete_film, set_rating
 oauth
 
 

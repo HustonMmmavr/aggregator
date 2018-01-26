@@ -26,7 +26,7 @@ class UserController < ApplicationController
         end
     end
 
-    res = send_req(@@url_user_service, 'create_user', 'post', params[:user])
+    res = send_req_with_auth(@@url_user_service, 'create_user', 'post', params[:user])
     return render :json => {:respMsg => res[:respMsg]}, :status => res[:status]
   end
 
@@ -37,7 +37,7 @@ class UserController < ApplicationController
     @user.check(@err)
 
     if @err.size == 0
-      res = send_req(@@url_user_service, 'create_user', 'post', @user.to_hash)
+      res = send_req_with_auth(@@url_user_service, 'create_user', 'post', @user.to_hash)
       if res[:status] < 300
         image = @user.userImage
         if image != nil
@@ -55,7 +55,7 @@ class UserController < ApplicationController
     end
 
     if @err.size == 0
-      redirect_to "/"
+      return redirect_to "/"
     end
 
     return render "user/signup"
@@ -75,7 +75,7 @@ class UserController < ApplicationController
       return render :json  => {:respMsg => "userName cant be empty"}, :status => 400
     end
 
-    res = send_req(@@url_user_service, 'get_user_by_name', 'get',nick)
+    res = send_req_with_auth(@@url_user_service, 'get_user_by_name', 'get',nick)
     if res[:status] != 200
       return render :json => {:respMsg => res[:respMsg]}, status => res[:status]
     end
@@ -89,13 +89,13 @@ class UserController < ApplicationController
 
     end
 
-    res = send_req(@@url_user_service, 'get_user_by_name', 'get', nick)
+    res = send_req_with_auth(@@url_user_service, 'get_user_by_name', 'get', nick)
     if res[:status] != 200
       return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
     end
 
     user = res[:user]
-    res = send_req(@@url_film_rating_service, 'get_linked_objects', 'get', user["userId"],
+    res = send_req_with_auth(@@url_film_rating_service, 'get_linked_objects', 'get', user["userId"],
     {:search_by => 'user_id'})
     if res[:status] != 200
       return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
@@ -105,7 +105,7 @@ class UserController < ApplicationController
 
     films = []
     film_ids.each do |id|
-      res = send_req(@@url_film_service, 'get_film', 'get', id)
+      res = send_req_with_auth(@@url_film_service, 'get_film', 'get', id)
       if res[:status] < 500
         if res[:film] != nil
           films.push(res[:film])
@@ -124,7 +124,7 @@ class UserController < ApplicationController
       return render :json => {:respMsg => check_user_id}, :status => 400
     end
     id = params[:id]
-    res = send_req(@@url_user_service, 'get_user_by_id', 'get',id)
+    res = send_req_with_auth(@@url_user_service, 'get_user_by_id', 'get',id)
     p res
     return render :json => {:respMsg => res[:respMsg], :data => res[:user]}, :status => res[:status]
   end
