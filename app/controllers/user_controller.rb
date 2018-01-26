@@ -1,5 +1,43 @@
 class UserController < ApplicationController
+  # def get_code()
+  #   if request.headers['Authorization'] == nil
+  #     redirect_to  'http://0.0.0.0:3000/login?redirect_url=http://0.0.0.0:7000/'
+  #   end
+  #
+  #   code = params['code']
+  #   return code
+  # end
+
+  #add client_id
+  #cookies
+  def login_user(request, params)
+    code = params['code']
+    auth = request.cookies['access_token']
+
+    if code == nil && auth == nil
+      url = request.original_url.sub('localhost', '0.0.0.0')
+      oauth_server = @@url_user_service.sub('localhost', '0.0.0.0')
+      return {:url => "http://#{oauth_server}/login?client_id=aggregator&redirect_url=#{url}"}#'http://0.0.0.0:3000/login?redirect_url=http://0.0.0.0:7000/'
+    end
+
+    if code
+      code = params['code']
+      res = send_req_with_auth(@@url_user_service, 'get_oauth_tokens', 'post', code)
+      if res[:status] != 200
+        p res
+        return res
+      end
+    end
+
+    if auth
+      return {:tokens => {:access_token => auth, :refresh_token => request['refresh_token']}}
+    end
+    return res
+  end
+##############################################
+
   def login()
+    p request.original_url
    return redirect_to  'http://0.0.0.0:3000/login?redirect_url=http://0.0.0.0:7000/'
   end
 
@@ -12,6 +50,9 @@ class UserController < ApplicationController
   def login_post()
     # too
   end
+
+
+  ###################################################################
 
   def signup()
     user = params[:user]
@@ -69,6 +110,14 @@ class UserController < ApplicationController
 
 
   def get_user_by_nick()
+    res = login_user(request, params)#.original_url)
+
+    if res != nil
+      if res[:url]
+        return redirect_to res[:url]
+      end
+    end
+
     nick = params[:nick]
 
     if nick == nil
@@ -80,7 +129,7 @@ class UserController < ApplicationController
       return render :json => {:respMsg => res[:respMsg]}, status => res[:status]
     end
 
-    render :json => {:user => res[:user]}, :status => res[:status]
+    return render :json => {:user => res[:user]}, :status => res[:status]
   end
 
   def get_user_by_nick_ui()
