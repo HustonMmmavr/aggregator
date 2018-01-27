@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
   @@email_regexp = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
   @@appName = 'aggregator'
+  @@dataApp = 'app'
+  @@secretApp = 'app'
   @@page = "1"
   @@appSecret = 'secret'
 
@@ -40,8 +42,8 @@ class ApplicationController < ActionController::Base
 
   end
 
-  # its fucking crutch
   def login_user(request, params, cookies)
+    p 'login_user`'
     code = params['code']
     auth = cookies[:access_token]
 
@@ -61,12 +63,14 @@ class ApplicationController < ActionController::Base
       cookies['refresh_token'] = res[:tokens]["refresh_token"]
     end
 
+    p 'aaa'
     # request to get code
     if code == nil && auth == nil
+
       url = request.original_url.sub('localhost', '0.0.0.0')
       oauth_server = @@url_user_service.sub('localhost', '0.0.0.0')
       return {:url => "http://#{oauth_server}/login?client_id=" +
-                      "#{@@appName}&client_secret=#{@@appSecret}" +
+                      "#{@@dataApp}&client_secret=#{@@secretApp}" +
                       "&redirect_url=#{url}&response_type=code"}
     end
 

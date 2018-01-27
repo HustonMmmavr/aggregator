@@ -8,8 +8,12 @@ class FilmRatingController < ApplicationController
   def set_rating()
     p cookies['access_token']
     p 'sf'
-    login_user(request, params, cookies)
-
+    res = login_user(request, params, cookies)
+    if res != nil
+      if res[:url]
+        return redirect_to res[:url]
+      end
+    end
     p 'sg'
     res = send_req_with_auth(@@url_user_service, 'get_user_by_token', 'post', {:access_token => cookies['access_token']})
     p 'd'

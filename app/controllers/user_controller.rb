@@ -13,11 +13,28 @@ class UserController < ApplicationController
   end
 
   def login_post()
-    @user = User.new
+    @user = User.new(params[:user])
     @err = Array.new
+    p @user.to_hash
 
+    res = send_req_with_auth(@@url_user_service, 'login_ui', 'post', @user.to_hash)
+    p res
 
-    # too
+    if res[:status] != 200
+      if res[:status] == 503
+        @err.push("Error with service. Please, try later!")
+      else
+        @err.push(res[:respMsg] + " " + res[:status].to_s)
+      end
+    end
+
+    if @err.count > 0
+      return render "user/signin"
+    end
+
+    cookies['access_token'] = res[:tokens]['access_token']
+    cookies['refresh_token'] = res[:tokens]['refresh_token']
+    redirect_to '/'
   end
 
   ###################################################################
