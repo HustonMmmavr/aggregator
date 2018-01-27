@@ -13,9 +13,12 @@ class UserController < ApplicationController
   end
 
   def login_post()
+    @user = User.new
+    @err = Array.new
+
+
     # too
   end
-
 
   ###################################################################
 

@@ -47,6 +47,12 @@ class RequestSender
       end
 
       uri = URI::parse(path)
+      p query_params
+      if query_params != nil
+        uri.query = URI::encode_www_form(query_params)
+      end
+      p uri.query
+      p uri
       request = Net::HTTP::Get.new(uri.request_uri)
       http = Net::HTTP.new(uri.host, uri.port).start
 
@@ -55,12 +61,6 @@ class RequestSender
         request[headers[:method]] = headers[:data]
       end
 
-      p query_params
-      if query_params != nil
-        uri.query = URI::encode_www_form(query_params)
-      end
-      p uri.query
-      p uri
       response = http.request(request)
       return response_to_hash(response)
     rescue => err
