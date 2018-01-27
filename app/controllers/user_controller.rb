@@ -1,38 +1,4 @@
 class UserController < ApplicationController
-  #cookies
-  def login_user(request, params, cookies)
-    code = params['code']
-    auth = cookies[:access_token]#request.cookies['access_token']
-
-    if auth
-      return {:tokens => {:access_token => auth, :refresh_token => request['refresh_token']}}
-    end
-
-    if code
-      code = params['code']
-      res = send_req_with_auth(@@url_user_service, 'get_oauth_tokens', 'post', {:code => code})
-      if res[:status] != 200
-        # p res
-        return res
-      end
-      p 'set'
-      cookies['access_token'] = res[:tokens]["access_token"]
-      cookies['refresh_token'] = res[:tokens]["refresh_token"]
-    end
-
-    # request to get code
-    if code == nil && auth == nil
-      url = request.original_url.sub('localhost', '0.0.0.0')
-      oauth_server = @@url_user_service.sub('localhost', '0.0.0.0')
-      return {:url => "http://#{oauth_server}/login?client_id=" +
-                      "#{@@appName}&client_secret=#{@@appSecret}" +
-                      "&redirect_url=#{url}&response_type=code"}
-    end
-
-    return res
-  end
-
-
 ##############################################
 
   def login()
@@ -109,9 +75,9 @@ class UserController < ApplicationController
 
 
   def get_user_by_nick()
-    res = login_user(request, params, cookies)#.original_url)
-    p cookies['access_token']
-
+    res = login_user(request, params, cookies)
+    #.original_url)
+    # p cookies['access_token']
     if res != nil
       if res[:url]
         return redirect_to res[:url]

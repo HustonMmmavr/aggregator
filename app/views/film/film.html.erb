@@ -29,6 +29,7 @@
     </div>
 
     <div id=<%="rate#{@film["filmId"]}"%> class="martop15 col-md-12 col-xs-12 bordered rate-div">
+      <% if @is_logged_in == true then %>
       <div id="set_rating"> Set Rating </div>
       <div>
         <fieldset class="rating">
@@ -38,11 +39,16 @@
           <%end%>
         </fieldset>
       </div>
+      <% else %>
+        <div> <span style="color: red;"> If you want to rate this film, please login </span> </div>
+      <%end%>
     </div>
 
+    <% if @is_logged_in %>
     <div class="delete_film col-md-12 col-xs-12 martop15" >
       <button type="button" class=" btn btn-danger col-md-12 col-xs-12"onClick=<%= "deleteFilm(#{@film['filmId']})" %> >Delete film</button>
     </div>
+    <%end%>
 
     <div class="col-md-12 col-xs-12 martop15 bordered">
       <div> Users rated this film </div>

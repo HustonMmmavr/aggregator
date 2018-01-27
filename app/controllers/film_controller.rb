@@ -145,6 +145,8 @@ class FilmController < ApplicationController
       return render "errors/error", locals: {message: "#{res[:status]} #{res[:respMsg]}"}
     end
 
+    p cookies['access_token']
+    @is_logged_in = cookies['access_token'] != nil
     @film = res[:film]
 
     ################################################

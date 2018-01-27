@@ -22,33 +22,87 @@ class ApplicationController < ActionController::Base
   @@page = "1"
   @@appSecret = 'secret'
 
-  # data -
-  def get_oauth_token(*data)
+  ##########################################################
+  ############## oauth
+  #########################################################
+
+  def check_token_valid(cookies)
+    p 'check_token'
+    p cookies['access_token']
+    res = send_req_with_auth(@@url_user_service, 'check_token', 'post', {:access_token => cookies['access_token']})
+    p res
+    if res[:status] == 401
+      p 'update'
+      res = send_req_with_auth(@@url_user_service, 'update_tokens', 'post', {:refresh_token => cookies['refresh_token']})
+      cookies[:access_token] = res[:tokens]['access_token']
+      cookies[:refresh_token] = res[:tokens]['refresh_token']
+    end
 
   end
 
-  def send_req(server_addr, server_method, method, params = nil, query_params = nil)
-    path = 'http://' + server_addr + server_method
-    p query_params
-    if method == "get"
-      if params != nil
-        if !params.kind_of?(Array)
-          arr = []
-          arr.push params
-          params = arr
-        end
+  # its fucking crutch
+  def login_user(request, params, cookies)
+    code = params['code']
+    auth = cookies[:access_token]
+
+    if auth
+      check_token_valid(cookies)
+      return {:tokens => {:access_token => cookies[:access_token],
+                          :refresh_token => cookies[:refresh_token]}}
+    end
+
+    if code
+      code = params['code']
+      res = send_req_with_auth(@@url_user_service, 'get_oauth_tokens', 'post', {:code => code})
+      if res[:status] != 200
+        return res
       end
-      return @@sender.send_get(path, params, query_params)
+      cookies['access_token'] = res[:tokens]["access_token"]
+      cookies['refresh_token'] = res[:tokens]["refresh_token"]
     end
-    if method == "post"
-      p params
-      return @@sender.send_post(path, params)
+
+    # request to get code
+    if code == nil && auth == nil
+      url = request.original_url.sub('localhost', '0.0.0.0')
+      oauth_server = @@url_user_service.sub('localhost', '0.0.0.0')
+      return {:url => "http://#{oauth_server}/login?client_id=" +
+                      "#{@@appName}&client_secret=#{@@appSecret}" +
+                      "&redirect_url=#{url}&response_type=code"}
     end
-    if method == "delete"
-      return @@sender.send_delete(path, params)
-    end
+
+    return res
   end
 
+  def login_user_ui()
+
+  end
+
+
+##########################################################################
+####################3 old ################################################
+##########################################################################
+  # def send_req(server_addr, server_method, method, params = nil, query_params = nil)
+  #   path = 'http://' + server_addr + server_method
+  #   p query_params
+  #   if method == "get"
+  #     if params != nil
+  #       if !params.kind_of?(Array)
+  #         arr = []
+  #         arr.push params
+  #         params = arr
+  #       end
+  #     end
+  #     return @@sender.send_get(path, params, query_params)
+  #   end
+  #   if method == "post"
+  #     p params
+  #     return @@sender.send_post(path, params)
+  #   end
+  #   if method == "delete"
+  #     return @@sender.send_delete(path, params)
+  #   end
+  # end
+  #
   def get_token(server, data = nil)
     rec = ApplicationKey.where(:appName => @@appName).first
     if server == @@url_user_service
@@ -63,14 +117,18 @@ class ApplicationController < ActionController::Base
     return token
   end
 
+  ##############################################################
+  ##################### service #######################
+  ##################################################
+
   def update_token(server, old)
-    p 'update_tok'
-    p old
+    # p 'update_tok'
+    # p old
     headers = {method: 'Authorization', data: "Bearer #{@@appName}:#{@@appSecret}"}#{:appId => @@appName, :appSecret => @@appSecret}
     rec = ApplicationKey.where(:appName => @@appName).first
     if server == @@url_film_service
       res = @@sender.send_post('http://' + @@url_film_service  + "get_token", nil, headers)
-      p res
+      # p res
       token = res[:token]
       rec.update(:keyForFilm => token)
     end
@@ -88,10 +146,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_headers(server, func, old = nil)
-    # p 'func'
     token = self.send func, server, old
     headers = {method: 'Authorization', data: "Token #{token}"}
-    # headers = {:appId => @@appName, :appSecret => 'secret'}
     return headers
   end
 
@@ -121,7 +177,6 @@ class ApplicationController < ActionController::Base
       res =  @@sender.send_post(path, params, headers)
       if res[:status] == 401
         new_headers = get_headers(server_addr, :update_token, headers)
-        # p ne
         res =  @@sender.send_post(path, params, new_headers)
       end
       return res
@@ -130,12 +185,15 @@ class ApplicationController < ActionController::Base
       return @@sender.send_delete(path, params, headers)
       if res[:status] == 401
         new_headers = get_headers(server_addr, :update_token, headers)
-        # p ne
         res =  @@sender.send_delete(path, params, headers)
       end
       return res
     end
   end
+
+  ############################################################
+  ########################## func ######################
+  #####################################################
 
   def is_parameter_valid(param_name, param, regexp)
     if param == nil || param == ""

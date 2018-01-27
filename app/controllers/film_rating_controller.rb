@@ -6,13 +6,23 @@ class FilmRatingController < ApplicationController
 
 
   def set_rating()
+    p cookies['access_token']
+    p 'sf'
+    login_user(request, params, cookies)
+
+    p 'sg'
+    res = send_req_with_auth(@@url_user_service, 'get_user_by_token', 'post', {:access_token => cookies['access_token']})
+    p 'd'
+    p res[:user]
+    # login_user()
     filmId = params[:filmId]
     filmRating = params[:filmRating]
+
 
     p filmId
     p filmRating
     # its a crutch
-    params[:userId] = "18"
+    params[:userId] = res[:user]['userId'].to_s
     ######################################
     @@film_rating_params.each do |key|
       check = is_parameter_valid key, params[key], @@int_regexp
